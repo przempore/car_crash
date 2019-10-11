@@ -203,10 +203,10 @@ bool pointInRectangle_3(Point m, RectangleApexes r) {
   Point C = r.c;
   Point D = r.d;
 
-  Point AB = vect2d(A, B);  float C1 = -1 * (AB.y*A.x + AB.x*A.y); float  D1 = (AB.y*m.x + AB.x*m.y) + C1;
-  Point AD = vect2d(A, D);  float C2 = -1 * (AD.y*A.x + AD.x*A.y); float D2 = (AD.y*m.x + AD.x*m.y) + C2;
-  Point BC = vect2d(B, C);  float C3 = -1 * (BC.y*B.x + BC.x*B.y); float D3 = (BC.y*m.x + BC.x*m.y) + C3;
-  Point CD = vect2d(C, D);  float C4 = -1 * (CD.y*C.x + CD.x*C.y); float D4 = (CD.y*m.x + CD.x*m.y) + C4;
+  Point AB = vect2d(A, B);  float C1 = -1 * (AB.y*A.x + AB.x*A.y); float  D1 = AB.y * m.x + AB.x * m.y + C1;
+  Point AD = vect2d(A, D);  float C2 = -1 * (AD.y*A.x + AD.x*A.y); float D2 = AD.y * m.x + AD.x * m.y + C2;
+  Point BC = vect2d(B, C);  float C3 = -1 * (BC.y*B.x + BC.x*B.y); float D3 = BC.y * m.x + BC.x * m.y + C3;
+  Point CD = vect2d(C, D);  float C4 = -1 * (CD.y*C.x + CD.x*C.y); float D4 = CD.y * m.x + CD.x * m.y + C4;
   return 0 >= D1 && 0 >= D4 && 0 <= D2 && 0 >= D3;
 }
 
@@ -227,16 +227,6 @@ inline bool operator<(const Point& lhs, const Point& rhs) {
 bool checkVehiclesDrivingBesides(sf::RectangleShape &shape, sf::RectangleShape &shape1) {
   auto tv_apexes = getRectangleVertices(shape);
   auto ego_apexes = getRectangleVertices(shape1);
-  if (!was_printed) {
-    std::cout << "shape position: " << Point{shape.getPosition().x, shape.getPosition().y} << "\n";
-    std::cout << "shape1 position: " << Point{shape1.getPosition().x, shape1.getPosition().y} << "\n";
-    printApexes(tv_apexes, {shape1.getSize().x, shape1.getSize().y}, {shape1.getPosition().x, shape1.getPosition().y});
-    std::cout << "xxxxxxxxxxxxxxxxxx\n\n";
-    std::cout << "xxxxxxxxxxxxxxxxxx\n\n";
-    printApexes(ego_apexes, {shape.getSize().x, shape.getSize().y}, {shape.getPosition().x, shape.getPosition().y});
-    std::cout << "xxxxxxxxxxxxxxxxxx\n\n";
-    was_printed = true;
-  }
   RectangleApexes A = tv_apexes < ego_apexes ? tv_apexes : ego_apexes;
   RectangleApexes B = tv_apexes < ego_apexes ? ego_apexes : tv_apexes;
 
