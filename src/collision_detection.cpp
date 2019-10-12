@@ -338,10 +338,10 @@ void print(sf::RectangleShape &shape, sf::RectangleShape &shape1) {
 
 void print() {
   RectangleApexes r = {
-      50, 0,
-      0, 20,
-      10, 50,
-      60, 30,
+      {50, 0},
+      {0, 20},
+      {10, 50},
+      {60, 30},
   };
   for (size_t y = 0 ; y < 50 ; y++) {
     std::string line = "";

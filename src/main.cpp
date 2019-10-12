@@ -1,18 +1,52 @@
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 #include <SFML/Graphics.hpp>
+#include <wrappers/graphics.hpp>
 
 #include "collision_detection.hpp"
+#include "i_game_application.hpp"
+#include "input.hpp"
 
-double getAngle(double a) {
-  return a * M_PI / 180;
+namespace Game::Details { namespace {
+
+constexpr uint32_t window_width = 800;
+constexpr uint32_t window_height = 600;
+const std::string window_name = "Car Crash";
+constexpr uint32_t frame_rate = 60u;
+constexpr float moving_speed = 2.5f;
+
+std::unique_ptr<Game::Wrappers::Graphics> window = nullptr;
+IGameApplicationPtr game_application = nullptr;
+
+constexpr float getAngle(float degrees) {
+  return degrees * static_cast<float>(M_PI) / 180.f;
 }
 
+constexpr Input::Key translateToGameInput(sf::Keyboard::Key key) {
+  return Input::Key(key);
+}
+
+bool startUp() {
+  window = std::make_unique<Game::Wrappers::Graphics>(sf::VideoMode(window_width, window_height), window_name);
+  return window != nullptr;
+}
+
+void shutdown() {}
+
+} }
+
+namespace Game { IGameApplicationPtr createGameApplication(); }
+
 int mainLoop() {
-  sf::RenderWindow window(sf::VideoMode(600, 400), "SFML works!");
-  window.setFramerateLimit(60);
-  constexpr float moving_speed = 2.5f;
+  using namespace Game::Details;
+  if (!startUp()) { return -1; }
+  window->setFramerateLimit(frame_rate);
+
+  game_application = Game::createGameApplication();
+
+  game_application->onStartup();
 
   sf::RectangleShape rectangle(sf::Vector2f(120, 50));
   rectangle.setFillColor(sf::Color::Blue);
@@ -20,7 +54,7 @@ int mainLoop() {
   rectangle2.setFillColor(sf::Color::Green);
   rectangle.setPosition({201, 221});
   rectangle2.setPosition({250, 100});
-  rectangle.setOrigin({rectangle.getSize().x / 4, rectangle.getSize().y / 2});
+  rectangle.setOrigin({rectangle.getSize().x / 4, rectangle.getSize().y / 2}); // TODO: x / 4 caused collision error
   rectangle2.setOrigin({rectangle2.getSize().x / 2, rectangle2.getSize().y / 2});
   rectangle2.setRotation(-45);
 
@@ -28,17 +62,19 @@ int mainLoop() {
   bool move_backward = false;
   bool move_left = false;
   bool move_right = false;
-  while (window.isOpen()) {
+  while (window->isOpen()) {
     sf::Event event{};
-    while (window.pollEvent(event)) {
+    while (window->pollEvent(event)) {
       // check the type of the event...
       switch (event.type) {
         // window closed
-        case sf::Event::Closed:window.close();
+        case sf::Event::Closed:window->close();
           return 0;
 
           // key pressed
         case sf::Event::KeyPressed: {
+          Game::Input::Keyboard input{Game::Input::KeyState::Down, translateToGameInput(event.key.code)};
+          game_application->onInput(input);
           switch (event.key.code) {
             case sf::Keyboard::Left: {
               rectangle.setPosition({rectangle.getPosition().x - moving_speed, rectangle.getPosition().y});
@@ -57,7 +93,7 @@ int mainLoop() {
             }
               break;
             case sf::Keyboard::Escape: {
-              window.close();
+              window->close();
             }
               break;
             case sf::Keyboard::R:move_right = true;
@@ -82,6 +118,10 @@ int mainLoop() {
           break;
 
         case sf::Event::KeyReleased: {
+          Game::Input::Keyboard input{Game::Input::KeyState::Up, translateToGameInput(event.key.code)};
+          game_application->onInput(input);
+
+
           switch (event.key.code) {
             case sf::Keyboard::A:move_forward = false;
               break;
@@ -132,15 +172,23 @@ int mainLoop() {
       rectangle.setFillColor(sf::Color::Blue);
     }
 
-    window.clear();
-    window.draw(rectangle2);
-    window.draw(rectangle);
-    window.display();
+    window->clear();
+    game_application->onDraw(window.get());
+
+    window->draw(rectangle2);
+    window->draw(rectangle);
+
+    window->display();
+    game_application->onUpdate();
+
+
   }
+  game_application->onShutdown();
+  shutdown();
 
   return 0;
 }
 
-int main(int argc, char const *argv[]) {
+int main() {
   return mainLoop();
 }
