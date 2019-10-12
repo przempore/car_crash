@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
+#include <wrappers/graphics.hpp>
 
 #include "collision_detection.hpp"
 #include "game_application.hpp"
@@ -16,7 +17,7 @@ const std::string window_name = "Car Crash";
 constexpr uint32_t frame_rate = 60u;
 constexpr float moving_speed = 2.5f;
 
-std::unique_ptr<sf::RenderWindow> window = nullptr;
+std::unique_ptr<Game::Wrappers::Graphics> window = nullptr;
 GameApplicationPtr game_application = nullptr;
 
 constexpr float getAngle(float degrees) {
@@ -28,7 +29,7 @@ constexpr Input::Key translateToGameInput(sf::Keyboard::Key key) {
 }
 
 bool startUp() {
-  window = std::make_unique<sf::RenderWindow>(sf::VideoMode(window_width, window_height), window_name);
+  window = std::make_unique<Game::Wrappers::Graphics>(sf::VideoMode(window_width, window_height), window_name);
   return window != nullptr;
 }
 
@@ -44,6 +45,8 @@ int mainLoop() {
   window->setFramerateLimit(frame_rate);
 
   game_application = Game::createGameApplication();
+
+  game_application->onStartup();
 
   sf::RectangleShape rectangle(sf::Vector2f(120, 50));
   rectangle.setFillColor(sf::Color::Blue);
@@ -71,7 +74,7 @@ int mainLoop() {
           // key pressed
         case sf::Event::KeyPressed: {
           Game::Input::Keyboard input{Game::Input::KeyState::Down, translateToGameInput(event.key.code)};
-          game_application->onEvent(input);
+          game_application->onInput(input);
           switch (event.key.code) {
             case sf::Keyboard::Left: {
               rectangle.setPosition({rectangle.getPosition().x - moving_speed, rectangle.getPosition().y});
@@ -116,7 +119,9 @@ int mainLoop() {
 
         case sf::Event::KeyReleased: {
           Game::Input::Keyboard input{Game::Input::KeyState::Up, translateToGameInput(event.key.code)};
-          game_application->onEvent(input);
+          game_application->onInput(input);
+
+
           switch (event.key.code) {
             case sf::Keyboard::A:move_forward = false;
               break;
@@ -168,11 +173,17 @@ int mainLoop() {
     }
 
     window->clear();
+    game_application->onDraw(window.get());
+
     window->draw(rectangle2);
     window->draw(rectangle);
-    window->display();
-  }
 
+    window->display();
+    game_application->onUpdate();
+
+
+  }
+  game_application->onShutdown();
   shutdown();
 
   return 0;

@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "input.hpp"
+#include "wrappers/graphics.hpp"
 
 namespace Game {
 
@@ -12,9 +13,8 @@ class GameApplication {
   void onStartup();
   void onShutdown();
   void onUpdate();
-  void onDraw();
-  void onEvent(const Input::Keyboard);
-  void onInput();
+  void onDraw(Game::Wrappers::Graphics* target);
+  void onInput(const Input::Keyboard);
 };
 
 using GameApplicationPtr = std::shared_ptr<GameApplication>;

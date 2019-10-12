@@ -3,15 +3,14 @@ project(car_crash)
 
 find_package(SFML2 COMPONENTS sfml-graphics sfml-window sfml-system sfml-audio REQUIRED)
 
-add_subdirectory(game)
-
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PUBLIC
-        main.cpp
-        collision_detection.cpp
-        collision_detection.hpp
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/main.cpp>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.cpp>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.hpp>
         $<TARGET_OBJECTS:game_application>
+        $<TARGET_OBJECTS:sfml_wrappers>
         )
 
 target_include_directories(${PROJECT_NAME}
@@ -19,4 +18,8 @@ target_include_directories(${PROJECT_NAME}
         SYSTEM PRIVATE ${SFML2_INCLUDE}
         )
 
-target_link_libraries(${PROJECT_NAME} ${SFML2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}
+        ${SFML2_LIBRARIES}
+        )
+
+add_subdirectory(game)
