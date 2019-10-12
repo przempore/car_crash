@@ -4,8 +4,7 @@ project(game_application)
 add_library(${PROJECT_NAME} OBJECT)
 
 target_sources(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/game_application.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/game_application.hpp>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/i_game_application.hpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/input.hpp>
         )
 

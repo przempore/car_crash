@@ -6,7 +6,7 @@
 #include <wrappers/graphics.hpp>
 
 #include "collision_detection.hpp"
-#include "game_application.hpp"
+#include "i_game_application.hpp"
 #include "input.hpp"
 
 namespace Game::Details { namespace {
@@ -18,7 +18,7 @@ constexpr uint32_t frame_rate = 60u;
 constexpr float moving_speed = 2.5f;
 
 std::unique_ptr<Game::Wrappers::Graphics> window = nullptr;
-GameApplicationPtr game_application = nullptr;
+IGameApplicationPtr game_application = nullptr;
 
 constexpr float getAngle(float degrees) {
   return degrees * static_cast<float>(M_PI) / 180.f;
@@ -37,7 +37,7 @@ void shutdown() {}
 
 } }
 
-namespace Game { GameApplicationPtr createGameApplication(); }
+namespace Game { IGameApplicationPtr createGameApplication(); }
 
 int mainLoop() {
   using namespace Game::Details;
