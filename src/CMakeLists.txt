@@ -13,8 +13,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         )
 
 target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/game
-               ${CMAKE_CURRENT_SOURCE_DIR}/impl
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framework
+        ${CMAKE_CURRENT_SOURCE_DIR}/game
         SYSTEM PRIVATE ${SFML2_INCLUDE}
         )
 
@@ -22,5 +22,5 @@ target_link_libraries(${PROJECT_NAME}
         ${SFML2_LIBRARIES}
         )
 
+add_subdirectory(framework)
 add_subdirectory(game)
-add_subdirectory(impl)
