@@ -7,7 +7,8 @@
 #include "i_game_application.hpp"
 #include "input.hpp"
 
-namespace Game::Details { namespace {
+namespace Game::Details {
+namespace {
 
 constexpr uint32_t window_width = 800;
 constexpr uint32_t window_height = 600;
@@ -51,20 +52,13 @@ int main() {
           return 0;
 
           // key pressed
-        case sf::Event::KeyPressed: {
-          Game::Input::Keyboard input{Game::Input::KeyState::Down, translateToGameInput(event.key.code)};
-          game_application->onInput(input);
-        }
+        case sf::Event::KeyPressed:
+          game_application->onInput({Game::Input::KeyState::Down, translateToGameInput(event.key.code)});
           break;
 
-        case sf::Event::KeyReleased: {
-          Game::Input::Keyboard input{Game::Input::KeyState::Up, translateToGameInput(event.key.code)};
-          game_application->onInput(input);
-        }
-
+        case sf::Event::KeyReleased:
+          game_application->onInput({Game::Input::KeyState::Up, translateToGameInput(event.key.code)});
           break;
-
-          // we don't process other types of events
         default:break;
       }
     }
@@ -73,7 +67,6 @@ int main() {
 
     window->display();
     game_application->onUpdate();
-
 
   }
   game_application->onShutdown();
