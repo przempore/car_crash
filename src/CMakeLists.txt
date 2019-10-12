@@ -7,16 +7,14 @@ add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/main.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.hpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/impl/car_crash.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/impl/car_crash.hpp>
         $<TARGET_OBJECTS:game_application>
         $<TARGET_OBJECTS:sfml_wrappers>
+        $<TARGET_OBJECTS:impl>
         )
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/game
+               ${CMAKE_CURRENT_SOURCE_DIR}/impl
         SYSTEM PRIVATE ${SFML2_INCLUDE}
         )
 
@@ -25,3 +23,4 @@ target_link_libraries(${PROJECT_NAME}
         )
 
 add_subdirectory(game)
+add_subdirectory(impl)
