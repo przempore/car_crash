@@ -49,7 +49,6 @@ using RectangleApexes = std::array<Point, RECTANGLE_APEXES_COUNT>;
 // https://math.stackexchange.com/a/2518716
 RectangleApexes getRectangleVertices(const sf::RectangleShape &shape) {
   auto angle = getRadianAngle(shape.getRotation());
-//    std::cout << "angle: " << angle << std::endl;
   auto w = shape.getSize().x / 2;
   auto b = shape.getSize().y / 2;
   Point u{w * std::cos(angle), w * std::sin(angle)};
