@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cmath>
 
-#include "collision_detection.hpp"
 #include <SFML/Graphics/Color.hpp>
+#include "collision_detection.hpp"
 
 namespace {
 
@@ -34,9 +34,7 @@ CarCrash::CarCrash() : rectangle_{sf::Vector2f(120, 50)},
   rectangle2_.setRotation(-45);
 }
 
-void CarCrash::onStartup() {
-  std::cout << __PRETTY_FUNCTION__ << '\n';
-}
+void CarCrash::onStartup() {}
 
 void CarCrash::onShutdown() {}
 

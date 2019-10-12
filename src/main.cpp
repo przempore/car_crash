@@ -32,7 +32,7 @@ void shutdown() {}
 
 namespace Game { IGameApplicationPtr createGameApplication(); }
 
-int mainLoop() {
+int main() {
   using namespace Game::Details;
   if (!startUp()) { return -1; }
   window->setFramerateLimit(frame_rate);
@@ -80,8 +80,4 @@ int mainLoop() {
   shutdown();
 
   return 0;
-}
-
-int main() {
-  return mainLoop();
 }
