@@ -1,6 +1,8 @@
 #ifndef CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 #define CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 
+#include <vector>
+
 #include <i_game_application.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -18,8 +20,7 @@ class CarCrash : public Game::IGameApplication {
   void onInput(const Game::Input::Keyboard keyboard) override;
 
  private:
-  sf::RectangleShape rectangle_;
-  sf::RectangleShape rectangle2_;
+  std::vector<sf::RectangleShape> rectangles_;
 
   bool move_forward_;
   bool move_backward_;
