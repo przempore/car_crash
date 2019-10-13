@@ -73,12 +73,12 @@ void CarCrash::onUpdate() {
 
 }
 
-void CarCrash::onDraw(Game::Wrappers::Graphics *target) {
+void CarCrash::onDraw(Game::Wrappers::Graphics& target) {
   for (auto it = rectangles_.rbegin(); it != rectangles_.rend(); ++it) {
-    target->draw(*it);
+    target.draw(*it);
   }
   if (close_window_) {
-    target->close();
+    target.close();
   }
 }
 

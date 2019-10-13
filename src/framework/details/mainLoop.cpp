@@ -1,76 +1,49 @@
-#include <iostream>
+#include "mainLoop.hpp"
+
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-#include <details/graphics.hpp>
-
+#include "graphics.hpp"
 #include "i_game_application.hpp"
 #include "input.hpp"
 
-namespace Game::Details { namespace {
-
-constexpr uint32_t window_width = 800;
-constexpr uint32_t window_height = 600;
-const std::string window_name = "Car Crash";
-constexpr uint32_t frame_rate = 60u;
-
-std::unique_ptr<Game::Wrappers::Graphics> window = nullptr;
-IGameApplicationPtr game_application = nullptr;
-
-constexpr Input::Key translateToGameInput(sf::Keyboard::Key key) {
-  return Input::Key(key);
-}
-
-bool startUp() {
-  window = std::make_unique<Game::Wrappers::Graphics>(sf::VideoMode(window_width, window_height), window_name);
-  return window != nullptr;
-}
-
-void shutdown() {}
-
-} /* namespace Game::Details */ }
-
 namespace Game { IGameApplicationPtr createGameApplication(); }
 
-bool mainLoop() {
-  using namespace Game::Details;
-  if (!startUp()) { return false; }
+bool mainLoop(const GraphicsWindowConfig& config) {
+  Game::Wrappers::Graphics window{sf::VideoMode(config.width, config.height), config.name};
 
-  window->setFramerateLimit(frame_rate);
-
-  game_application = Game::createGameApplication();
-
+  window.setFramerateLimit(config.frame_rate);
+  auto game_application = Game::createGameApplication();
   game_application->onStartup();
 
-  while (window->isOpen()) {
+  while (window.isOpen()) {
     sf::Event event{};
-    while (window->pollEvent(event)) {
+    while (window.pollEvent(event)) {
       // check the type of the event...
       switch (event.type) {
         // window closed
-        case sf::Event::Closed:window->close();
+        case sf::Event::Closed:window.close();
           return true;
 
           // key pressed
         case sf::Event::KeyPressed:
-          game_application->onInput({Game::Input::KeyState::Down, translateToGameInput(event.key.code)});
+          game_application->onInput({Game::Input::KeyState::Down, Game::Input::Key(event.key.code)});
           break;
 
         case sf::Event::KeyReleased:
-          game_application->onInput({Game::Input::KeyState::Up, translateToGameInput(event.key.code)});
+          game_application->onInput({Game::Input::KeyState::Up, Game::Input::Key(event.key.code)});
           break;
+
         default:break;
       }
     }
-    window->clear();
-    game_application->onDraw(window.get());
+    window.clear();
+    game_application->onDraw(window);
 
-    window->display();
+    window.display();
     game_application->onUpdate();
-
   }
   game_application->onShutdown();
-  shutdown();
 
   return true;
 }
