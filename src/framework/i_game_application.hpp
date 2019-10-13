@@ -16,7 +16,7 @@ class IGameApplication {
   virtual void onStartup() = 0;
   virtual void onShutdown() = 0;
   virtual void onUpdate() = 0;
-  virtual void onDraw(Game::Wrappers::Graphics* target) = 0;
+  virtual void onDraw(Game::Wrappers::Graphics& target) = 0;
   virtual void onInput(const Input::Keyboard) = 0;
 };
 
