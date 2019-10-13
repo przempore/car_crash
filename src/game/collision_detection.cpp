@@ -1,7 +1,9 @@
+#define _USE_MATH_DEFINES
 #include "collision_detection.hpp"
 
 #include <cmath>
 #include <iostream>
+#include <array>
 
 namespace {
 

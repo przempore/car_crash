@@ -2,13 +2,12 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-#include <wrappers/graphics.hpp>
+#include <details/graphics.hpp>
 
 #include "i_game_application.hpp"
 #include "input.hpp"
 
-namespace Game::Details {
-namespace {
+namespace Game::Details { namespace {
 
 constexpr uint32_t window_width = 800;
 constexpr uint32_t window_height = 600;
@@ -36,6 +35,7 @@ namespace Game { IGameApplicationPtr createGameApplication(); }
 int main() {
   using namespace Game::Details;
   if (!startUp()) { return -1; }
+
   window->setFramerateLimit(frame_rate);
 
   game_application = Game::createGameApplication();
