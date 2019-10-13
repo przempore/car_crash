@@ -13,4 +13,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${SFML2_INCLUDE})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 
-add_subdirectory(wrappers)
+add_subdirectory(details)

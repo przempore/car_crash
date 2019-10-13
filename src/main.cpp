@@ -2,7 +2,7 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-#include <wrappers/graphics.hpp>
+#include <details/graphics.hpp>
 
 #include "i_game_application.hpp"
 #include "input.hpp"
