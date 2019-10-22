@@ -31,7 +31,7 @@ CarCrash::CarCrash() : rectangles_{},
   rectangles_[1].setFillColor(sf::Color::Green);
   rectangles_[0].setPosition({201, 221});
   rectangles_[1].setPosition({250, 100});
-  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 4, rectangles_[0].getSize().y / 2}); // TODO: x / 4 caused collision error
+  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 2, rectangles_[0].getSize().y / 2}); // TODO: x / 4 caused collision error
   rectangles_[1].setOrigin({rectangles_[1].getSize().x / 2, rectangles_[1].getSize().y / 2});
   rectangles_[1].setRotation(-45);
 }

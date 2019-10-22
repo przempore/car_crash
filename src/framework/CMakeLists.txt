@@ -7,6 +7,8 @@ add_library(${PROJECT_NAME} OBJECT)
 target_sources(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/i_game_application.hpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/input.hpp>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.hpp>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/collision_detection.cpp>
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${SFML2_INCLUDE})
@@ -14,3 +16,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 
 add_subdirectory(details)
+add_subdirectory(network)
