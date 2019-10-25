@@ -24,9 +24,9 @@
 #include <grpc/support/log.h>
 
 #ifdef BAZEL_BUILD
-#include "examples/protos/helloworld.grpc.pb.h"
+#include "examples/protos/car_crash.grpc.pb.h"
 #else
-#include "helloworld.grpc.pb.h"
+#include "car_crash.grpc.pb.h"
 #endif
 
 using grpc::Channel;
@@ -34,9 +34,9 @@ using grpc::ClientAsyncResponseReader;
 using grpc::ClientContext;
 using grpc::CompletionQueue;
 using grpc::Status;
-using helloworld::HelloRequest;
-using helloworld::HelloReply;
-using helloworld::Greeter;
+using carcrash::HelloRequest;
+using carcrash::HelloReply;
+using carcrash::Greeter;
 
 class GreeterClient {
  public:
@@ -105,17 +105,3 @@ class GreeterClient {
   // server's exposed services.
   std::unique_ptr<Greeter::Stub> stub_;
 };
-
-int main(int argc, char** argv) {
-  // Instantiate the client. It requires a channel, out of which the actual RPCs
-  // are created. This channel models a connection to an endpoint (in this case,
-  // localhost at port 50051). We indicate that the channel isn't authenticated
-  // (use of InsecureChannelCredentials()).
-  GreeterClient greeter(grpc::CreateChannel(
-      "localhost:50051", grpc::InsecureChannelCredentials()));
-  std::string user("world");
-  std::string reply = greeter.SayHello(user);  // The actual RPC call!
-  std::cout << "Greeter received: " << reply << std::endl;
-
-  return 0;
-}

@@ -27,7 +27,7 @@
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
 #else
-#include "helloworld.grpc.pb.h"
+#include "car_crash.grpc.pb.h"
 #endif
 
 using grpc::Server;
@@ -36,9 +36,9 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerCompletionQueue;
 using grpc::Status;
-using helloworld::HelloRequest;
-using helloworld::HelloReply;
-using helloworld::Greeter;
+using carcrash::HelloRequest;
+using carcrash::HelloReply;
+using carcrash::Greeter;
 
 class ServerImpl final {
  public:
@@ -162,10 +162,3 @@ class ServerImpl final {
   Greeter::AsyncService service_;
   std::unique_ptr<Server> server_;
 };
-
-int main(int argc, char** argv) {
-  ServerImpl server;
-  server.Run();
-
-  return 0;
-}

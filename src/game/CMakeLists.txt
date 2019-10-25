@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(impl)
+project(game_impl)
 
 add_library(${PROJECT_NAME} OBJECT)
 
