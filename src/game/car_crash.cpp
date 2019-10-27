@@ -31,7 +31,8 @@ CarCrash::CarCrash() : rectangles_{},
   rectangles_[1].setFillColor(sf::Color::Green);
   rectangles_[0].setPosition({201, 221});
   rectangles_[1].setPosition({250, 100});
-  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 2, rectangles_[0].getSize().y / 2}); // TODO: x / 4 caused collision error
+  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 2,
+                            rectangles_[0].getSize().y / 2}); // TODO: x / 4 caused collision error
   rectangles_[1].setOrigin({rectangles_[1].getSize().x / 2, rectangles_[1].getSize().y / 2});
   rectangles_[1].setRotation(-45);
 }
@@ -73,7 +74,7 @@ void CarCrash::onUpdate() {
 
 }
 
-void CarCrash::onDraw(Game::Wrappers::Graphics& target) {
+void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
   for (auto it = rectangles_.rbegin(); it != rectangles_.rend(); ++it) {
     target.draw(*it);
   }
@@ -108,7 +109,8 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
       case Game::Input::Key::E:move_left_ = true;
         break;
       case Game::Input::Key::W: {
-        std::cout << "shape position: " << rectangles_[0].getPosition().x << ", " << rectangles_[0].getPosition().y << '\n';
+        std::cout << "shape position: " << rectangles_[0].getPosition().x << ", " << rectangles_[0].getPosition().y
+                  << '\n';
       }
         break;
       case Game::Input::Key::A:move_forward_ = true;

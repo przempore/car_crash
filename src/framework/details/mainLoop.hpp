@@ -11,6 +11,6 @@ struct GraphicsWindowConfig {
   uint32_t frame_rate = 60u;
 };
 
-bool mainLoop(const GraphicsWindowConfig& config = GraphicsWindowConfig{});
+bool mainLoop(const GraphicsWindowConfig &config = GraphicsWindowConfig{});
 
 #endif //CAR_CRASH_SRC_FRAMEWORK_DETAILS_MAINLOOP_HPP_

@@ -14,7 +14,7 @@ class Graphics {
   void setFramerateLimit(const uint32_t frame_rate);
   bool isOpen() const;
   void close();
-  bool pollEvent(sf::Event& event);
+  bool pollEvent(sf::Event &event);
   void clear();
   void draw(const sf::Drawable &drawable, const sf::RenderStates &states = sf::RenderStates::Default);
   void display();

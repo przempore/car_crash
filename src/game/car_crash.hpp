@@ -16,7 +16,7 @@ class CarCrash : public Game::IGameApplication {
   void onStartup() override;
   void onShutdown() override;
   void onUpdate() override;
-  void onDraw(Game::Wrappers::Graphics& target) override;
+  void onDraw(Game::Wrappers::Graphics &target) override;
   void onInput(const Game::Input::Keyboard keyboard) override;
 
  private:

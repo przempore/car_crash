@@ -33,15 +33,6 @@ set(cc_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.pb.h")
 set(cc_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.grpc.pb.cc")
 set(cc_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.grpc.pb.h")
 
-message(STATUS "_PROTOBUF_PROTOC=${_PROTOBUF_PROTOC}")
-message(STATUS "cc_proto_srcs=${cc_proto_srcs}")
-message(STATUS "cc_proto_hdrs=${cc_proto_hdrs}")
-message(STATUS "cc_grpc_srcs=${cc_grpc_srcs}")
-message(STATUS "cc_grpc_hdrs=${cc_grpc_hdrs}")
-message(STATUS "cc_proto_path=${cc_proto_path}")
-message(STATUS "_GRPC_CPP_PLUGIN_EXECUTABLE=${_GRPC_CPP_PLUGIN_EXECUTABLE}")
-message(STATUS "cc_proto=${cc_proto}")
-
 add_custom_command(
         OUTPUT "${cc_proto_srcs}" "${cc_proto_hdrs}" "${cc_grpc_srcs}" "${cc_grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
@@ -72,31 +63,3 @@ target_link_libraries(${PROJECT_NAME}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
         )
-
-#add_library(${PROJECT_NAME}_server SHARED)
-#
-#target_sources(${PROJECT_NAME}_server PUBLIC
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_async_server.hpp>
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_async_server.cpp>
-#        ${cc_proto_srcs}
-#        ${cc_grpc_srcs}
-#        )
-#
-#target_link_libraries(${PROJECT_NAME}_server
-#        ${_GRPC_GRPCPP_UNSECURE}
-#        ${_PROTOBUF_LIBPROTOBUF}
-#        )
-#
-#add_library(${PROJECT_NAME}_client SHARED)
-#
-#target_sources(${PROJECT_NAME}_client PUBLIC
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_async_client.hpp>
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_async_client.cpp>
-#        ${cc_proto_srcs}
-#        ${cc_grpc_srcs}
-#        )
-#
-#target_link_libraries(${PROJECT_NAME}_client
-#        ${_GRPC_GRPCPP_UNSECURE}
-#        ${_PROTOBUF_LIBPROTOBUF}
-#        )

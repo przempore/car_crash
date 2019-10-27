@@ -7,7 +7,7 @@
 
 namespace Game { IGameApplicationPtr createGameApplication(); }
 
-bool mainLoop(const GraphicsWindowConfig& config) {
+bool mainLoop(const GraphicsWindowConfig &config) {
   Game::Wrappers::Graphics window{sf::VideoMode(config.width, config.height), config.name};
 
   window.setFramerateLimit(config.frame_rate);
