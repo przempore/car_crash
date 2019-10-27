@@ -2,20 +2,42 @@ syntax = "proto3";
 
 package carcrash;
 
-// The greeting service definition.
-service Greeter {
-    // Sends a greeting
-    rpc SayHello (HelloRequest) returns (HelloReply) {}
+import "google/protobuf/empty.proto";
+
+message Point {
+    int32 x = 1;
+    int32 y = 2;
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-    string name = 1;
+message Id {
+    uint32 id = 1;
 }
 
-// The response message containing the greetings
-message HelloReply {
-    string message = 1;
+message Rectangle {
+    enum Color {
+        Black = 0;
+        White = 1;
+        Red = 2;
+        Green = 3;
+        Blue = 4;
+        Yellow = 5;
+        Magenta = 6;
+        Cyan = 7;
+        Transparent = 8;
+    }
+
+    uint32 id = 1;
+    Point position = 2;
+    float angle = 3;
+    Point dimension = 4;
+    Color color = 5;
 }
 
+message Vehicles {
+    repeated Rectangle rectangles = 1;
+}
 
+service CarCrash {
+    rpc GetNewId (google.protobuf.Empty) returns (Id) {}
+    rpc UpdateVehicles (Vehicles) returns (Vehicles) {}
+}

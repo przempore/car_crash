@@ -7,6 +7,8 @@
 
 namespace Game { IGameApplicationPtr createGameApplication(); }
 
+namespace CC {
+
 bool mainLoop(const GraphicsWindowConfig &config) {
   Game::Wrappers::Graphics window{sf::VideoMode(config.width, config.height), config.name};
 
@@ -38,4 +40,6 @@ bool mainLoop(const GraphicsWindowConfig &config) {
   game_application->onShutdown();
 
   return true;
+}
+
 }
