@@ -37,7 +37,16 @@ message Vehicles {
     repeated Rectangle rectangles = 1;
 }
 
+message VehicleWithId {
+    Id id = 1;
+    Rectangle rectangle = 2;
+}
+
 service CarCrash {
-    rpc GetNewId (google.protobuf.Empty) returns (Id) {}
-    rpc UpdateVehicles (Vehicles) returns (Vehicles) {}
+    rpc GetNewId (google.protobuf.Empty) returns (Id) {
+    }
+    rpc GetVehicles (Vehicles) returns (Vehicles) {
+    }
+    rpc UpdateVehicle (VehicleWithId) returns (google.protobuf.Empty) {
+    }
 }

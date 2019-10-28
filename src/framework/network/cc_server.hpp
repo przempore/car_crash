@@ -10,7 +10,7 @@
 
 namespace CC {
 
-class CCServiceImpl final : public carcrash::CarCrash::Service {
+class CCGRPCService final : public carcrash::CarCrash::Service {
  public:
   ::grpc::Status GetNewId(::grpc::ServerContext *context,
                           const ::google::protobuf::Empty *request,
@@ -19,10 +19,16 @@ class CCServiceImpl final : public carcrash::CarCrash::Service {
     return ::grpc::Status::OK;
   }
 
-  ::grpc::Status UpdateVehicles(::grpc::ServerContext *context,
-                                const ::carcrash::Vehicles *request,
-                                ::carcrash::Vehicles *response) final {
+  ::grpc::Status GetVehicles(::grpc::ServerContext *context,
+                             const ::carcrash::Vehicles *request,
+                             ::carcrash::Vehicles *response) final {
 
+    return ::grpc::Status::OK;
+  }
+
+  ::grpc::Status UpdateVehicle(::grpc::ServerContext *context,
+                               const ::carcrash::VehicleWithId *request,
+                               ::google::protobuf::Empty *response) final {
     return ::grpc::Status::OK;
   }
 };
@@ -47,7 +53,7 @@ class Server final {
 
  private:
   std::string server_address_;
-  CCServiceImpl service_;
+  CCGRPCService service_;
   std::unique_ptr<grpc::Server> server_;
 };
 
