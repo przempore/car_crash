@@ -37,7 +37,10 @@ CarCrash::CarCrash() : rectangles_{},
   rectangles_[1].setRotation(-45);
 }
 
-void CarCrash::onStartup() {}
+void CarCrash::onStartup() {
+  uint32_t id = client_.getId();
+  auto vehicles = client_.getVehicles();
+}
 
 void CarCrash::onShutdown() {}
 

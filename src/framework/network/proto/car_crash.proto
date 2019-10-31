@@ -45,7 +45,7 @@ message VehicleWithId {
 service CarCrash {
     rpc GetNewId (google.protobuf.Empty) returns (Id) {
     }
-    rpc GetVehicles (Vehicles) returns (Vehicles) {
+    rpc GetVehicles (google.protobuf.Empty) returns (Vehicles) {
     }
     rpc UpdateVehicle (VehicleWithId) returns (google.protobuf.Empty) {
     }

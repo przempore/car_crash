@@ -3,6 +3,7 @@
 
 #include <grpcpp/grpcpp.h>
 #include "car_crash.grpc.pb.h"
+#include "rectangle.hpp"
 
 namespace CC {
 
@@ -24,6 +25,14 @@ class GRPCClient {
     }
   }
 
+  std::vector<Rectangle> getVehicles() {
+    ::grpc::ClientContext context;
+    ::carcrash::Vehicles reply;
+    ::grpc::Status status = stub_->GetVehicles(&context, ::google::protobuf::Empty(), &reply);
+
+    return std::vector<Rectangle>();
+  }
+
  private:
   std::unique_ptr<carcrash::CarCrash::Stub> stub_;
 };
@@ -35,6 +44,11 @@ class Client {
   uint32_t getId() {
     return client_.getId();
   }
+
+  std::vector<Rectangle> getVehicles() {
+    return client_.getVehicles();
+  }
+  
 
  private:
   GRPCClient client_;

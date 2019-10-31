@@ -5,6 +5,8 @@
 
 #include <i_game_application.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <network/cc_client.hpp>
+
 
 namespace CC {
 
@@ -28,6 +30,7 @@ class CarCrash : public Game::IGameApplication {
   bool move_right_;
   bool close_window_;
   const float moving_speed_;
+  CC::Client client_;
 };
 
 }

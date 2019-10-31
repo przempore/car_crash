@@ -7,33 +7,9 @@
 #include <grpcpp/grpcpp.h>
 
 #include "car_crash.grpc.pb.h"
+#include "rectangle.hpp"
 
 namespace CC {
-
-struct Point {
-  uint32_t x = std::numeric_limits<uint32_t>::infinity();
-  uint32_t y = std::numeric_limits<uint32_t>::infinity();
-};
-
-struct Verticle {
-  enum class Color {
-    Black,
-    White,
-    Red,
-    Green,
-    Blue,
-    Yellow,
-    Magenta,
-    Cyan,
-    Transparent,
-  };
-
-  uint32_t id = std::numeric_limits<uint32_t>::infinity();
-  Point position;
-  float angle = std::numeric_limits<float>::infinity();
-  Point dimension;
-  Color color = Color::Black;
-};
 
 class CCGRPCService final : public carcrash::CarCrash::Service {
  public:
@@ -45,9 +21,8 @@ class CCGRPCService final : public carcrash::CarCrash::Service {
   }
 
   ::grpc::Status GetVehicles(::grpc::ServerContext *context,
-                             const ::carcrash::Vehicles *request,
+                             const ::google::protobuf::Empty *request,
                              ::carcrash::Vehicles *response) final {
-
     return ::grpc::Status::OK;
   }
 
@@ -58,7 +33,7 @@ class CCGRPCService final : public carcrash::CarCrash::Service {
   }
 
  private:
-  std::vector<Verticle> vehicles_;
+  std::vector<Rectangle> vehicles_;
 };
 
 class Server final {
