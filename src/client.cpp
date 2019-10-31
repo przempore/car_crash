@@ -3,15 +3,18 @@
 #include <network/cc_client.hpp>
 #include <details/mainLoop.hpp>
 
-int main(int argc, char **argv) {
-  std::thread clients_thr([]() {
-    CC::Client(grpc::CreateChannel(
-        "localhost:50051", grpc::InsecureChannelCredentials()));
-  });
+void clientThread() {
+  CC::Client client;
+  uint32_t id = client.getId();
+}
 
-  std::thread game_thr([]() {
-    return CC::mainLoop();
-  });
+bool mainLoopThread() {
+  return CC::mainLoop();
+}
+
+int main(int argc, char **argv) {
+  std::thread clients_thr(clientThread);
+  std::thread game_thr(mainLoopThread);
 
   clients_thr.join();
   game_thr.join();
