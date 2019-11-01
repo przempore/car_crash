@@ -49,4 +49,9 @@ service CarCrash {
     }
     rpc UpdateVehicle (VehicleWithId) returns (google.protobuf.Empty) {
     }
+    rpc RegisterVehicle (VehicleWithId) returns (Id) {
+    }
+    rpc UnregisterVehicle (Id) returns (Id) { // get id to Unregister, returns last Id
+    }
 }
+

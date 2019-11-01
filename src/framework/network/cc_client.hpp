@@ -13,6 +13,8 @@ class GRPCClient {
 
   uint32_t getId();
   std::vector<Rectangle> getVehicles();
+  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
+  uint32_t registerVehicle(const Rectangle& vehicle);
 
  private:
   std::unique_ptr<carcrash::CarCrash::Stub> stub_;
@@ -23,6 +25,8 @@ class Client {
   explicit Client(const std::string& ip = "localhost:50051");
   uint32_t getId();
   std::vector<Rectangle> getVehicles();
+  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
+  uint32_t registerVehicle(const Rectangle& vehicle);
 
  private:
   GRPCClient client_;

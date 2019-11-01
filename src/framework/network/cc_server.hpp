@@ -22,6 +22,10 @@ class CCGRPCService final : public carcrash::CarCrash::Service {
   ::grpc::Status UpdateVehicle(::grpc::ServerContext *context,
                                const ::carcrash::VehicleWithId *request,
                                ::google::protobuf::Empty *response) final;
+  ::grpc::Status RegisterVehicle(::grpc::ServerContext *context,
+                                 const ::carcrash::VehicleWithId *request,
+                                 ::carcrash::Id *response) final;
+
  private:
   std::vector<Rectangle> vehicles_;
 };

@@ -7,11 +7,28 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include "collision_detection.hpp"
+#include "../framework/network/rectangle.hpp"
 
 namespace {
 
 constexpr float getAngle(float degrees) {
   return degrees * static_cast<float>(M_PI) / 180.f;
+}
+
+CC::Rectangle::Color translateSfColorToGrpcColor(sf::Color color) {
+  switch (color.toInteger()) {
+    case 1: return CC::Rectangle::Color::Black;
+    case 2: return CC::Rectangle::Color::White;
+    case 3: return CC::Rectangle::Color::Red;
+    case 4: return CC::Rectangle::Color::Green;
+    case 5: return CC::Rectangle::Color::Blue;
+    case 6: return CC::Rectangle::Color::Yellow;
+    case 7: return CC::Rectangle::Color::Magenta;
+    case 8: return CC::Rectangle::Color::Cyan;
+    case 9: return CC::Rectangle::Color::Transparent;
+  }
+
+  return CC::Rectangle::Color::Black;
 }
 
 }
@@ -38,8 +55,17 @@ CarCrash::CarCrash() : rectangles_{},
 }
 
 void CarCrash::onStartup() {
+  auto a = client_.getVehicles();
+
   uint32_t id = client_.getId();
-  auto vehicles = client_.getVehicles();
+  std::cout << __FILE__ << ':' << __LINE__ << " | void CarCrash::onStartup()\n";
+
+  Rectangle r{id, {rectangles_[0].getPosition().x, rectangles_[0].getPosition().y},
+              rectangles_[0].getRotation(),
+              {rectangles_[0].getSize().x, rectangles_[0].getSize().y},
+              translateSfColorToGrpcColor(rectangles_[0].getFillColor())};
+  client_.registerVehicle(r);
+
 }
 
 void CarCrash::onShutdown() {}
