@@ -1,5 +1,7 @@
 #include "cc_client.hpp"
 
+#include <limits>
+
 namespace CC {
 
 GRPCClient::GRPCClient(std::shared_ptr<::grpc::Channel> channel) : stub_(carcrash::CarCrash::NewStub(channel)) {}
@@ -9,13 +11,13 @@ uint32_t GRPCClient::getId() {
   ::carcrash::Id reply;
   ::grpc::Status status = stub_->GetNewId(&context, ::google::protobuf::Empty(), &reply);
 
-  if (status.ok()) {
-    return reply.id();
-  } else {
+  if (!status.ok()) {
     std::cout << status.error_code() << ": " << status.error_message()
               << std::endl;
     return std::numeric_limits<uint32_t>::infinity();
   }
+
+  return reply.id();
 }
 
 std::vector<Rectangle> GRPCClient::getVehicles() {
@@ -23,20 +25,16 @@ std::vector<Rectangle> GRPCClient::getVehicles() {
   ::carcrash::Vehicles reply;
   ::grpc::Status status = stub_->GetVehicles(&context, ::google::protobuf::Empty(), &reply);
 
-  auto rectangles = reply.rectangles();
-  std::cout << __FILE__ << ':' << __LINE__;
-  for (auto& r : rectangles) { std::cout << r.id() << ", "; }
-  std::cout << '\n';
-  if (status.ok()) {
-    // todo: return reply->rectangles(); // translated to std::vector<Rectangle>
-    return {};
-  } else {
-    std::cout << status.error_code() << ": " << status.error_message()
-              << std::endl;
+  //auto rectangles = reply.rectangles();
+  if (!status.ok()) {
+    std::cout << status.error_code() << ':' << status.error_message() << '\n';
     return {};
   }
 
-  return std::vector<Rectangle>();
+  std::vector<Rectangle> rectangles;
+  std::transform(reply.rectangles().begin(), reply.rectangles().end(), std::back_inserter(rectangles), [](const auto& r) { return copyFromGrpc(r); });
+
+  return rectangles;
 }
 
 uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle& vehicle) {
@@ -45,13 +43,13 @@ uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle& vehicle) {
   ::google::protobuf::Empty empty;
   ::grpc::Status status = stub_->UpdateVehicle(&context, request, &empty);
 
-  if (status.ok()) {
-    return id;
-  } else {
+  if (!status.ok()) {
     std::cout << status.error_code() << ": " << status.error_message()
               << std::endl;
-    return id;
+    return std::numeric_limits<uint32_t>::infinity();
   }
+
+  return id;
 }
 
 uint32_t GRPCClient::registerVehicle(const Rectangle& vehicle) {
@@ -60,24 +58,22 @@ uint32_t GRPCClient::registerVehicle(const Rectangle& vehicle) {
   ::carcrash::Rectangle rectangle;
   rectangle.CopyFrom(copyToGrpc(vehicle));
 
-  auto& mut_rect = *request.mutable_rectangle();
-  mut_rect = rectangle;
+  *request.mutable_rectangle() = rectangle;
 
   ::carcrash::Id id;
   id.set_id(vehicle.id);
 
-  auto& mut_id = *request.mutable_id();
-  mut_id = id;
+  *request.mutable_id() = id;
   ::carcrash::Id reply;
   ::grpc::Status status = stub_->RegisterVehicle(&context, request, &reply);
 
-  if (status.ok()) {
-    return reply.id();
-  } else {
+  if (!status.ok()) {
     std::cout << status.error_code() << ": " << status.error_message()
               << std::endl;
     return std::numeric_limits<uint32_t>::infinity();
   }
+
+  return reply.id();
 }
 
 Client::Client(const std::string &ip) : client_(grpc::CreateChannel(ip, grpc::InsecureChannelCredentials())) {}

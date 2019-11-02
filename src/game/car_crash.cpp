@@ -58,8 +58,6 @@ void CarCrash::onStartup() {
   auto a = client_.getVehicles();
 
   uint32_t id = client_.getId();
-  std::cout << __FILE__ << ':' << __LINE__ << " | void CarCrash::onStartup()\n";
-
   Rectangle r{id, {rectangles_[0].getPosition().x, rectangles_[0].getPosition().y},
               rectangles_[0].getRotation(),
               {rectangles_[0].getSize().x, rectangles_[0].getSize().y},
