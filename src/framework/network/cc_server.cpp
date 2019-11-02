@@ -5,6 +5,7 @@ namespace CC {
 ::grpc::Status CCGRPCService::GetNewId(::grpc::ServerContext *context,
                                        const ::google::protobuf::Empty *request,
                                        ::carcrash::Id *response) {
+  // todo: id should be an atomic member to not send the same id to multiple clients
   response->set_id(vehicles_.size());
   return ::grpc::Status::OK;
 }
@@ -12,16 +13,6 @@ namespace CC {
 ::grpc::Status CCGRPCService::GetVehicles(::grpc::ServerContext *context,
                                           const ::google::protobuf::Empty *request,
                                           ::carcrash::Vehicles *response) {
-  // todo: remove debug helpers
-  Rectangle r{1, Point{23.f, 34.f}, 1.23f, Point{56.f, 67.f}, CC::Rectangle::Color::Blue};
-  vehicles_.push_back(r);
-  r.id++;
-  vehicles_.push_back(r);
-  r.id++;
-  vehicles_.push_back(r);
-  r.id++;
-  // --------------
-
   for (auto& v : vehicles_) {
     auto* vehicle = response->add_rectangles();
     vehicle->CopyFrom(copyToGrpc(v));

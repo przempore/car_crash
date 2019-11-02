@@ -22,7 +22,9 @@ class CarCrash : public Game::IGameApplication {
   void onInput(const Game::Input::Keyboard keyboard) override;
 
  private:
-  std::vector<sf::RectangleShape> rectangles_;
+  sf::RectangleShape rectangle_;
+  uint32_t rectangle_id_;
+//  std::vector<sf::RectangleShape> rectangles_; // todo: to remove, client will have only one rectangle to control
 
   bool move_forward_;
   bool move_backward_;
