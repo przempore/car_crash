@@ -24,9 +24,7 @@ namespace CC {
                                             const ::carcrash::VehicleWithId *request,
                                             ::google::protobuf::Empty *response) {
   const auto& id = request->id();
-  auto& vehicle_to_update = vehicles_[id.id()];
-  const auto& request_vehicle = request->rectangle();
-  vehicle_to_update = copyFromGrpc(request_vehicle);
+  vehicles_[id.id()] = copyFromGrpc(request->rectangle());
 
   return ::grpc::Status::OK;
 }
