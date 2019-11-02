@@ -15,6 +15,7 @@ constexpr float getAngle(float degrees) {
 }
 
 CC::Rectangle::Color toGrpcColor(sf::Color color) {
+  // todo: check if nubmers are correct
   switch (color.toInteger()) {
     case 1: return CC::Rectangle::Color::Black;
     case 2: return CC::Rectangle::Color::White;
@@ -145,7 +146,6 @@ void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
 //  for (auto it = rectangles_.rbegin(); it != rectangles_.rend(); ++it) {
 //    target.draw(*it);
 //  }
-  target.draw(rectangle_);
   if (close_window_) {
     target.close();
   }
