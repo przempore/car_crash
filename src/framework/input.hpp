@@ -19,8 +19,15 @@ enum class Key : std::int32_t {
   Num0,  Num1,  Num2,  Num3,  Num4,  Num5,  Num6,  Num7,  Num8,  Num9,
 
   // control keys
-  Escape,  LeftControl,  LeftShift,  LeftAlt,  LeftSystem,   // The left OS specific key: window (Windows and Linux), apple (MacOS X), ...
-  RightControl,  RightShift,  RightAlt,  RightSystem,  // The right OS specific key: window (Windows and Linux), apple (MacOS X), ...
+      Escape,
+  LeftControl,
+  LeftShift,
+  LeftAlt,
+  LeftSystem,   // The left OS specific key: window (Windows and Linux), apple (MacOS X), ...
+  RightControl,
+  RightShift,
+  RightAlt,
+  RightSystem,  // The right OS specific key: window (Windows and Linux), apple (MacOS X), ...
   Menu,         // The Menu key
 
   // special signs

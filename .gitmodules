@@ -1,3 +1,6 @@
 [submodule "third_party/SFML"]
 	path = third_party/SFML
 	url = https://github.com/SFML/SFML.git
+[submodule "third_party/grpc"]
+	path = third_party/grpc
+	url = https://github.com/grpc/grpc.git

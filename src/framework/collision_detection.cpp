@@ -92,6 +92,8 @@ bool pointInRectangle(Point m, RectangleApexes r) {
 
 }
 
+namespace CC {
+
 std::ostream &operator<<(std::ostream &os, const Point &p) {
   os << "(" << p.x << "," << p.y << ")";
   return os;
@@ -128,4 +130,6 @@ bool isCollided(sf::RectangleShape &shape, sf::RectangleShape &shape1) {
   }
 
   return false;
+}
+
 }
