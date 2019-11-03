@@ -9,7 +9,7 @@ namespace Game { IGameApplicationPtr createGameApplication(const std::string& ip
 
 namespace CC {
 
-bool mainLoop(const GraphicsWindowConfig &config) {
+bool mainLoop(const ClientConfig &config) {
   Game::Wrappers::Graphics window{sf::VideoMode(config.width, config.height), config.name};
 
   window.setFramerateLimit(config.frame_rate);

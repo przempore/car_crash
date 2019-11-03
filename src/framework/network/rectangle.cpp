@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& os, const Rectangle& r) {
   os << "id: " << r.id << ", position: {" << r.position << "}, "
      << r.angle << ", dimension: {" << r.dimension << "}, color: "
      << rectangle_color_dict.at(r.color)
-     << ", origin: {" << origin << '}';
+     << ", origin: {" << r.origin << '}';
   return os;
 }
 

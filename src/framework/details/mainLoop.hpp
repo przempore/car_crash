@@ -6,7 +6,7 @@
 
 namespace CC {
 
-struct GraphicsWindowConfig {
+struct ClientConfig {
   uint32_t width = 800;
   uint32_t height = 600;
   std::string name = "Car Crash";
@@ -14,7 +14,7 @@ struct GraphicsWindowConfig {
   std::string ip = "localhost:50051";
 };
 
-bool mainLoop(const GraphicsWindowConfig &config = GraphicsWindowConfig{});
+bool mainLoop(const ClientConfig &config = ClientConfig{});
 
 }
 
