@@ -12,7 +12,13 @@ namespace CC {
 
 class CarCrash : public Game::IGameApplication {
  public:
-  CarCrash();
+  explicit CarCrash();
+  ~CarCrash();
+  CarCrash(const CarCrash&) = delete;
+  CarCrash(CarCrash&&) = delete;
+  CarCrash operator=(const CarCrash&) = delete;
+  CarCrash operator=(CarCrash&&) = delete;
+
 
  public:
   void onStartup() override;

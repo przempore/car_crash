@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include <grpcpp/grpcpp.h>
 
@@ -25,9 +26,12 @@ class CCGRPCService final : public carcrash::CarCrash::Service {
   ::grpc::Status RegisterVehicle(::grpc::ServerContext *context,
                                  const ::carcrash::VehicleWithId *request,
                                  ::carcrash::Id *response) final;
+  ::grpc::Status UnregisterVehicle(::grpc::ServerContext *context,
+                                   const ::carcrash::Id *request,
+                                   ::carcrash::Id *response) final;
 
  private:
-  std::vector<Rectangle> vehicles_;
+  std::unordered_map<uint32_t, Rectangle> vehicles_;
 };
 
 class Server final {
