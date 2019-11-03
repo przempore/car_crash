@@ -15,7 +15,6 @@ constexpr float getAngle(float degrees) {
 }
 
 CC::Rectangle::Color toGrpcColor(sf::Color color) {
-  // todo: check if nubmers are correct
   switch (color.toInteger()) {
     case 255: return CC::Rectangle::Color::Black;
     case 4294967295: return CC::Rectangle::Color::White;
@@ -64,26 +63,21 @@ sf::RectangleShape toSfRectangle(CC::Rectangle r) {
 
 namespace CC {
 
-CarCrash::CarCrash() : rectangle_(sf::Vector2f(120, 50)),
-                       rectangle_id_(std::numeric_limits<uint32_t>::infinity()),
-//                       rectangles_{},
-                       move_forward_{false},
-                       move_backward_{false},
-                       move_left_{false},
-                       move_right_{false},
-                       close_window_{false},
-                       moving_speed_{2.5f} {
+CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
+                                            rectangle_id_(std::numeric_limits<uint32_t>::infinity()),
+                                            move_forward_{false},
+                                            move_backward_{false},
+                                            move_left_{false},
+                                            move_right_{false},
+                                            close_window_{false},
+                                            moving_speed_{2.5f},
+                                            client_{ip} {
   // todo: client needs only its own rectangle, rest will get from server
-////  rectangles_.emplace_back(sf::Vector2f(120, 50));
-//  rectangles_.emplace_back(sf::Vector2f(120, 50));
   rectangle_.setFillColor(sf::Color::Blue);
-//  rectangles_[0].setFillColor(sf::Color::Green);
   rectangle_.setPosition({201, 221});
-//  rectangles_[0].setPosition({250, 100});
   rectangle_.setOrigin({rectangle_.getSize().x / 4,  // TODO: x / 4 caused collision error
-                            rectangle_.getSize().y / 2});
-//  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 2, rectangles_[0].getSize().y / 2});
-//  rectangles_[0].setRotation(-45);
+                        rectangle_.getSize().y / 2});
+  rectangle_.setOrigin({rectangle_.getSize().x / 2, rectangle_.getSize().y / 2});
 }
 
 CarCrash::~CarCrash() {
@@ -217,8 +211,8 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
 
 namespace Game {
 
-Game::IGameApplicationPtr createGameApplication() {
-  return std::make_shared<CC::CarCrash>();
+Game::IGameApplicationPtr createGameApplication(const std::string& ip) {
+  return std::make_shared<CC::CarCrash>(ip);
 }
 
 }

@@ -38,12 +38,18 @@ class Server final {
  public:
   explicit Server(std::string server_address = "0.0.0.0:50051");
   ~Server();
+  Server(const Server&) = delete;
+  Server(Server&&) = delete;
+  Server operator=(const Server&) = delete;
+  Server operator=(Server&&) = delete;
+
   void run();
 
  private:
   std::string server_address_;
   CCGRPCService service_;
   std::unique_ptr<grpc::Server> server_;
+  std::atomic_uint32_t latest_id_;
 };
 
 }

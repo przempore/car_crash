@@ -2,6 +2,7 @@
 #define CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 
 #include <vector>
+#include <string>
 
 #include <i_game_application.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -12,7 +13,7 @@ namespace CC {
 
 class CarCrash : public Game::IGameApplication {
  public:
-  explicit CarCrash();
+  explicit CarCrash(const std::string& ip);
   ~CarCrash();
   CarCrash(const CarCrash&) = delete;
   CarCrash(CarCrash&&) = delete;

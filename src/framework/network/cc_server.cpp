@@ -62,7 +62,10 @@ namespace CC {
 }
 
 
-Server::Server(std::string server_address) : server_address_{std::move(server_address)} {}
+Server::Server(std::string server_address) : server_address_{std::move(server_address)},
+                                             service_{},
+                                             server_{nullptr},
+                                             latest_id_{0} {}
 
 Server::~Server() {
   server_->Shutdown();

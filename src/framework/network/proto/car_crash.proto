@@ -31,6 +31,7 @@ message Rectangle {
     float angle = 3;
     Point dimension = 4;
     Color color = 5;
+    Point origin = 6;
 }
 
 message Vehicles {

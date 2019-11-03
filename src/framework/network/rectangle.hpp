@@ -34,6 +34,7 @@ struct Rectangle {
   float angle = std::numeric_limits<float>::infinity();
   Point dimension;
   Color color = Color::Black;
+  Point origin;
 };
 
 static const std::unordered_map<Rectangle::Color, std::string> rectangle_color_dict {
@@ -53,10 +54,10 @@ std::ostream& operator<<(std::ostream& os, const Rectangle& r);
 ::carcrash::Rectangle_Color translateToGrpcColor(Rectangle::Color color);
 Rectangle::Color translateToCCColor(::carcrash::Rectangle_Color color);
 ::carcrash::Point createGrpcPoint(const Point& p);
-::carcrash::Rectangle copyToGrpc(const Rectangle from);
+::carcrash::Rectangle copyToGrpc(const Rectangle& from);
 Rectangle copyFromGrpc(const ::carcrash::Rectangle& from);
 
-}
+}  // namespace CC
 
 #endif // RECTANGLE_HPP_
 

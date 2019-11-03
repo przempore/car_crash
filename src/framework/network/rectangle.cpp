@@ -10,7 +10,8 @@ std::ostream& operator<<(std::ostream& os, const Point& p) {
 std::ostream& operator<<(std::ostream& os, const Rectangle& r) {
   os << "id: " << r.id << ", position: {" << r.position << "}, "
      << r.angle << ", dimension: {" << r.dimension << "}, color: "
-     << rectangle_color_dict.at(r.color) << '\n';
+     << rectangle_color_dict.at(r.color)
+     << ", origin: {" << origin << '}';
   return os;
 }
 
@@ -56,7 +57,7 @@ Rectangle::Color translateToCCColor(::carcrash::Rectangle_Color color) {
   return point;
 }
 
-::carcrash::Rectangle copyToGrpc(const Rectangle from) {
+::carcrash::Rectangle copyToGrpc(const Rectangle& from) {
   ::carcrash::Rectangle to;
 
   to.set_id(from.id);
@@ -78,7 +79,8 @@ Rectangle copyFromGrpc(const ::carcrash::Rectangle& from) {
       {from.position().x(), from.position().y()},
       from.angle(),
       {from.dimension().x(), from.dimension().y()},
-      translateToCCColor(from.color())
+      translateToCCColor(from.color()),
+      {from.origin().x(), from.origin().y()},
   };
 }
 

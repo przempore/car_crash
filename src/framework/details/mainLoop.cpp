@@ -5,7 +5,7 @@
 #include "i_game_application.hpp"
 #include "input.hpp"
 
-namespace Game { IGameApplicationPtr createGameApplication(); }
+namespace Game { IGameApplicationPtr createGameApplication(const std::string& ip); }
 
 namespace CC {
 
@@ -13,7 +13,7 @@ bool mainLoop(const GraphicsWindowConfig &config) {
   Game::Wrappers::Graphics window{sf::VideoMode(config.width, config.height), config.name};
 
   window.setFramerateLimit(config.frame_rate);
-  auto game_application = Game::createGameApplication();
+  auto game_application = Game::createGameApplication(config.ip);
   game_application->onStartup();
 
   while (window.isOpen()) {

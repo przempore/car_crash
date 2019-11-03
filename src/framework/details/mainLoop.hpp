@@ -11,6 +11,7 @@ struct GraphicsWindowConfig {
   uint32_t height = 600;
   std::string name = "Car Crash";
   uint32_t frame_rate = 60u;
+  std::string ip = "localhost:50051";
 };
 
 bool mainLoop(const GraphicsWindowConfig &config = GraphicsWindowConfig{});
