@@ -15,6 +15,7 @@ class GRPCClient {
   std::vector<Rectangle> getVehicles();
   uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
   uint32_t registerVehicle(const Rectangle& vehicle);
+  uint32_t unregisterVehicle(uint32_t id);
 
  private:
   std::unique_ptr<carcrash::CarCrash::Stub> stub_;
@@ -27,6 +28,7 @@ class Client {
   std::vector<Rectangle> getVehicles();
   uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
   uint32_t registerVehicle(const Rectangle& vehicle);
+  uint32_t unregisterVehicle(uint32_t id);
 
  private:
   GRPCClient client_;

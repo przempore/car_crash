@@ -41,6 +41,17 @@ uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle& vehicle) {
   ::grpc::ClientContext context;
   ::carcrash::VehicleWithId request;
   ::google::protobuf::Empty empty;
+
+  ::carcrash::Rectangle rectangle;
+  rectangle.CopyFrom(copyToGrpc(vehicle));
+
+  *request.mutable_rectangle() = rectangle;
+
+  ::carcrash::Id request_id;
+  request_id.set_id(id);
+
+  *request.mutable_id() = request_id;
+
   ::grpc::Status status = stub_->UpdateVehicle(&context, request, &empty);
 
   if (!status.ok()) {
@@ -76,6 +87,23 @@ uint32_t GRPCClient::registerVehicle(const Rectangle& vehicle) {
   return reply.id();
 }
 
+uint32_t GRPCClient::unregisterVehicle(uint32_t id) {
+  ::grpc::ClientContext context;
+  ::carcrash::Id request;
+  ::carcrash::Id reply;
+
+  request.set_id(id);
+  ::grpc::Status status = stub_->UnregisterVehicle(&context, request, &reply);
+
+  if (!status.ok()) {
+    std::cout << status.error_code() << ": " << status.error_message()
+              << std::endl;
+    return std::numeric_limits<uint32_t>::infinity();
+  }
+
+  return reply.id();
+}
+
 Client::Client(const std::string &ip) : client_(grpc::CreateChannel(ip, grpc::InsecureChannelCredentials())) {}
 
 uint32_t Client::getId() {
@@ -92,6 +120,10 @@ uint32_t Client::updateVehicle(uint32_t id, const Rectangle& vehicle) {
 
 uint32_t Client::registerVehicle(const Rectangle& vehicle) {
   return client_.registerVehicle(vehicle);
+}
+
+uint32_t Client::unregisterVehicle(uint32_t id) {
+  return client_.unregisterVehicle(id);
 }
 
 }

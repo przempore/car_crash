@@ -17,15 +17,15 @@ constexpr float getAngle(float degrees) {
 CC::Rectangle::Color toGrpcColor(sf::Color color) {
   // todo: check if nubmers are correct
   switch (color.toInteger()) {
-    case 1: return CC::Rectangle::Color::Black;
-    case 2: return CC::Rectangle::Color::White;
-    case 3: return CC::Rectangle::Color::Red;
-    case 4: return CC::Rectangle::Color::Green;
-    case 5: return CC::Rectangle::Color::Blue;
-    case 6: return CC::Rectangle::Color::Yellow;
-    case 7: return CC::Rectangle::Color::Magenta;
-    case 8: return CC::Rectangle::Color::Cyan;
-    case 9: return CC::Rectangle::Color::Transparent;
+    case 255: return CC::Rectangle::Color::Black;
+    case 4294967295: return CC::Rectangle::Color::White;
+    case 4278190335: return CC::Rectangle::Color::Red;
+    case 16711935: return CC::Rectangle::Color::Green;
+    case 65535: return CC::Rectangle::Color::Blue;
+    case 4294902015: return CC::Rectangle::Color::Yellow;
+    case 4278255615: return CC::Rectangle::Color::Magenta;
+    case 16777215: return CC::Rectangle::Color::Cyan;
+    case 0: return CC::Rectangle::Color::Transparent;
   }
 
   return CC::Rectangle::Color::Cyan;
@@ -44,7 +44,7 @@ sf::Color toSfColor(CC::Rectangle::Color color) {
       case CC::Rectangle::Color::Transparent: return sf::Color::Transparent;
     }
 
-    return sf::Color::Black;
+    return sf::Color::Magenta;
 }
 
 CC::Rectangle toCcRectangle(uint32_t id, const sf::RectangleShape& r) {
@@ -84,6 +84,12 @@ CarCrash::CarCrash() : rectangle_(sf::Vector2f(120, 50)),
                             rectangle_.getSize().y / 2});
 //  rectangles_[0].setOrigin({rectangles_[0].getSize().x / 2, rectangles_[0].getSize().y / 2});
 //  rectangles_[0].setRotation(-45);
+}
+
+CarCrash::~CarCrash() {
+  // todo: move this to onShutdown
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | rectangle_id_ : " << rectangle_id_ << '\n';
+  client_.unregisterVehicle(rectangle_id_);
 }
 
 void CarCrash::onStartup() {
@@ -138,14 +144,12 @@ void CarCrash::onUpdate() {
 //  }
 
   // todo: update your vehicle in server
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " rectangle_id_: " << rectangle_id_ << '\n';
   client_.updateVehicle(rectangle_id_, toCcRectangle(rectangle_id_, rectangle_));
 
 }
 
 void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
-//  for (auto it = rectangles_.rbegin(); it != rectangles_.rend(); ++it) {
-//    target.draw(*it);
-//  }
   if (close_window_) {
     target.close();
   }
