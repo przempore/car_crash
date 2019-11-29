@@ -31,6 +31,7 @@ target_link_libraries(${PROJECT_NAME}_client
         )
 
 # server
+# todo: remove client dependency from server
 add_executable(${PROJECT_NAME}_server)
 
 target_sources(${PROJECT_NAME}_server PUBLIC
