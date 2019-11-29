@@ -14,7 +14,7 @@ namespace CC {
 class CarCrash : public Game::IGameApplication {
  public:
   explicit CarCrash(const std::string& ip);
-  ~CarCrash();
+  ~CarCrash() override = default;
   CarCrash(const CarCrash&) = delete;
   CarCrash(CarCrash&&) = delete;
   CarCrash operator=(const CarCrash&) = delete;

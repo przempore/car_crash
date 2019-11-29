@@ -89,11 +89,6 @@ CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
   rectangle_.setOrigin({rectangle_.getSize().x / 2, rectangle_.getSize().y / 2});
 }
 
-CarCrash::~CarCrash() {
-  // todo: move this to onShutdown
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | rectangle_id_ : " << rectangle_id_ << '\n';
-}
-
 void CarCrash::onStartup() {
   // 1. get all vehicles from server
   auto vehicles_from_server = client_.getVehicles();
