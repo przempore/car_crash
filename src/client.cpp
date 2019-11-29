@@ -1,22 +1,23 @@
-#include <thread>
+#include <string>
+#include <regex>
+#include <iostream>
 
 #include <details/mainLoop.hpp>
 
-bool mainLoopThread(const std::string& ip) {
+int main(const int argc, const char **argv) {
+  std::string ip = "localhost:50051";
+  if (argc > 1) {
+    const std::regex ip_regex(R"(((\d{1,3}(\.\d{1,3}){3})|(localhost))\:\d{2,5})");
+    ip = argv[1];
+
+    std::smatch base_match;
+    if (!std::regex_match(ip, base_match, ip_regex)) {
+      std::cerr << "Usage: car_crash_client <ip_address:with_port>";
+      return -1;
+    }
+  }
+
   CC::ClientConfig config;
   config.ip = ip;
   return CC::mainLoop();
-}
-
-int main(int argc, char **argv) {
-  if (argc > 1) {
-  	const std::string ip = argv[1];
-  	std::thread game_thr(mainLoopThread, ip);
-  	game_thr.join();
-  } else {
-  	std::thread game_thr(mainLoopThread, "localhost:50051");
-  	game_thr.join();
-  }
-
-  return 0;
 }

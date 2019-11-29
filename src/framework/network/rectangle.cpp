@@ -26,6 +26,7 @@ std::ostream& operator<<(std::ostream& os, const Rectangle& r) {
     case Rectangle::Color::Magenta: return ::carcrash::Rectangle_Color::Rectangle_Color_Magenta;
     case Rectangle::Color::Cyan: return ::carcrash::Rectangle_Color::Rectangle_Color_Cyan;
     case Rectangle::Color::Transparent: return ::carcrash::Rectangle_Color::Rectangle_Color_Transparent;
+    default: return ::carcrash::Rectangle_Color::Rectangle_Color_Black;
   }
 
   return ::carcrash::Rectangle_Color::Rectangle_Color_Black;
@@ -42,6 +43,7 @@ Rectangle::Color translateToCCColor(::carcrash::Rectangle_Color color) {
     case ::carcrash::Rectangle_Color::Rectangle_Color_Magenta: return Rectangle::Color::Magenta;
     case ::carcrash::Rectangle_Color::Rectangle_Color_Cyan: return Rectangle::Color::Cyan;
     case ::carcrash::Rectangle_Color::Rectangle_Color_Transparent: return Rectangle::Color::Transparent;
+    default: return Rectangle::Color::Black;
   }
 
   return Rectangle::Color::Black;

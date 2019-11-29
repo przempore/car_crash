@@ -2,8 +2,8 @@
 
 namespace CC {
 
-::grpc::Status CCGRPCService::GetNewId(::grpc::ServerContext *context,
-                                       const ::google::protobuf::Empty *request,
+::grpc::Status CCGRPCService::GetNewId(::grpc::ServerContext*,
+                                       const ::google::protobuf::Empty*,
                                        ::carcrash::Id *response) {
   // todo: id should be an atomic member to not send the same id to multiple clients
   std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " vehicles_ size: " << vehicles_.size() << '\n';
@@ -11,8 +11,8 @@ namespace CC {
   return ::grpc::Status::OK;
 }
 
-::grpc::Status CCGRPCService::GetVehicles(::grpc::ServerContext *context,
-                                          const ::google::protobuf::Empty *request,
+::grpc::Status CCGRPCService::GetVehicles(::grpc::ServerContext*,
+                                          const ::google::protobuf::Empty*,
                                           ::carcrash::Vehicles *response) {
   for (auto& v : vehicles_) {
     auto* vehicle = response->add_rectangles();
@@ -21,9 +21,9 @@ namespace CC {
   return ::grpc::Status::OK;
 }
 
-::grpc::Status CCGRPCService::UpdateVehicle(::grpc::ServerContext *context,
+::grpc::Status CCGRPCService::UpdateVehicle(::grpc::ServerContext*,
                                             const ::carcrash::VehicleWithId *request,
-                                            ::google::protobuf::Empty *response) {
+                                            ::google::protobuf::Empty*) {
   const auto& id = request->id();
   
   // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " id.id(): " << id.id() << '\n';
@@ -34,9 +34,9 @@ namespace CC {
 }
 
 
-::grpc::Status CCGRPCService::RegisterVehicle(::grpc::ServerContext *context,
+::grpc::Status CCGRPCService::RegisterVehicle(::grpc::ServerContext*,
                                               const ::carcrash::VehicleWithId *request,
-                                              ::carcrash::Id *response) {
+                                              ::carcrash::Id*) {
   const auto& id = request->id();
   const auto& request_vehicle = request->rectangle();
   auto ret = vehicles_.emplace(id.id(), copyFromGrpc(request_vehicle));
@@ -48,9 +48,9 @@ namespace CC {
   return ::grpc::Status::OK;
 }
 
-::grpc::Status CCGRPCService::UnregisterVehicle(::grpc::ServerContext *context,
+::grpc::Status CCGRPCService::UnregisterVehicle(::grpc::ServerContext*,
                                                 const ::carcrash::Id *request,
-                                                ::carcrash::Id *response) {
+                                                ::carcrash::Id*) {
   uint32_t id = request->id();
   std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " id: " << id << '\n';
   auto ret = vehicles_.erase(id);

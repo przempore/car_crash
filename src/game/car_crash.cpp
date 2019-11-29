@@ -48,7 +48,7 @@ sf::Color toSfColor(CC::Rectangle::Color color) {
 
 CC::Rectangle toCcRectangle(uint32_t id, const sf::RectangleShape& r) {
   return {id, {r.getPosition().x, r.getPosition().y}, r.getRotation(), {r.getSize().x, r.getSize().y},
-          toGrpcColor(r.getFillColor())};
+          toGrpcColor(r.getFillColor()), {r.getOrigin().x, r.getOrigin().y}};
 }
 
 sf::RectangleShape toSfRectangle(CC::Rectangle r) {
@@ -59,21 +59,30 @@ sf::RectangleShape toSfRectangle(CC::Rectangle r) {
   return ret;
 }
 
+const std::array COLORS = {
+//    sf::Color::Black,
+    sf::Color::White,
+//    sf::Color::Red,
+    sf::Color::Green,
+    sf::Color::Blue,
+    sf::Color::Yellow,
+    sf::Color::Magenta,
+    sf::Color::Cyan,
+//    sf::Color::Transparent,
+
+};
+
 }
 
 namespace CC {
 
 CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
                                             rectangle_id_(std::numeric_limits<uint32_t>::infinity()),
-                                            move_forward_{false},
-                                            move_backward_{false},
-                                            move_left_{false},
-                                            move_right_{false},
                                             close_window_{false},
                                             moving_speed_{2.5f},
+                                            moving_direction_{0},
                                             client_{ip} {
   // todo: client needs only its own rectangle, rest will get from server
-  rectangle_.setFillColor(sf::Color::Blue);
   rectangle_.setPosition({201, 221});
   rectangle_.setOrigin({rectangle_.getSize().x / 4,  // TODO: x / 4 caused collision error
                         rectangle_.getSize().y / 2});
@@ -83,11 +92,9 @@ CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
 CarCrash::~CarCrash() {
   // todo: move this to onShutdown
   std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | rectangle_id_ : " << rectangle_id_ << '\n';
-  client_.unregisterVehicle(rectangle_id_);
 }
 
 void CarCrash::onStartup() {
-
   // 1. get all vehicles from server
   auto vehicles_from_server = client_.getVehicles();
 
@@ -95,7 +102,7 @@ void CarCrash::onStartup() {
 
   // 3. register your vehicle
   rectangle_id_ = client_.getId();
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " rectangle_id_: " << rectangle_id_ << '\n';
+  rectangle_.setFillColor(COLORS[rectangle_id_ % COLORS.size()]);
   if (std::isinf(rectangle_id_)) {
     std::cout << "Rectangle id not set\n";
     return;
@@ -103,44 +110,22 @@ void CarCrash::onStartup() {
   client_.registerVehicle(toCcRectangle(rectangle_id_, rectangle_));
 }
 
-void CarCrash::onShutdown() {}
+void CarCrash::onShutdown() {
+    client_.unregisterVehicle(rectangle_id_);
+}
 
 void CarCrash::onUpdate() {
-  if (move_forward_) {
-    float x = rectangle_.getPosition().x + moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
-    float y = rectangle_.getPosition().y + moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
-    rectangle_.setPosition({x, y});
-    if (move_left_) {
-      rectangle_.rotate(-2);
-    }
-    if (move_right_) {
-      rectangle_.rotate(2);
-    }
-  }
+  move();
 
-  if (move_backward_) {
-    float x = rectangle_.getPosition().x - moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
-    float y = rectangle_.getPosition().y - moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
-    rectangle_.setPosition({x, y});
-    if (move_left_) {
-      rectangle_.rotate(2);
-    }
-    if (move_right_) {
-      rectangle_.rotate(-2);
-    }
-  }
-
-// todo: check collicions between other rectangles from server
+// todo: check collisions between other rectangles from server
 //  if (isCollided(rectangle_, rectangles_[0])) {
 //    rectangle_.setFillColor(sf::Color::Red);
 //  } else {
 //    rectangle_.setFillColor(sf::Color::Blue);
 //  }
 
-  // todo: update your vehicle in server
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " rectangle_id_: " << rectangle_id_ << '\n';
+  // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " rectangle_id_: " << rectangle_id_ << '\n'; // todo: remove debug logs
   client_.updateVehicle(rectangle_id_, toCcRectangle(rectangle_id_, rectangle_));
-
 }
 
 void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
@@ -148,7 +133,6 @@ void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
     target.close();
   }
 
-  // todo: get vehicles from server and draw them
   auto vehicles_from_server = client_.getVehicles();
   for (const auto& v : vehicles_from_server) {
     target.draw(toSfRectangle(v));
@@ -176,35 +160,72 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
         break;
       case Game::Input::Key::Escape:close_window_ = true;
         break;
-      case Game::Input::Key::R:move_right_ = true;
+      case Game::Input::Key::R:appendMoveDirection(MoveDirections::right);
         break;
-      case Game::Input::Key::E:move_left_ = true;
+      case Game::Input::Key::E:appendMoveDirection(MoveDirections::left);
         break;
       case Game::Input::Key::W: {
-        std::cout << "shape position: " << rectangle_.getPosition().x << ", " << rectangle_.getPosition().y
-                  << '\n';
+        std::cout << "shape position: " << rectangle_.getPosition().x << ", " << rectangle_.getPosition().y << '\n';
       }
         break;
-      case Game::Input::Key::A:move_forward_ = true;
+    case Game::Input::Key::A:appendMoveDirection(MoveDirections::forward);
         break;
-      case Game::Input::Key::Q:move_backward_ = true;
+      case Game::Input::Key::Q:appendMoveDirection(MoveDirections::backwards);
         break;
       default:break;
     }
   } else {
 
     switch (keyboard.code) {
-      case Game::Input::Key::A:move_forward_ = false;
+      case Game::Input::Key::A:removeMoveDirection(MoveDirections::forward);
         break;
-      case Game::Input::Key::R:move_right_ = false;
+      case Game::Input::Key::R:removeMoveDirection(MoveDirections::right);
         break;
-      case Game::Input::Key::E:move_left_ = false;
+      case Game::Input::Key::E:removeMoveDirection(MoveDirections::left);
         break;
-      case Game::Input::Key::Q:move_backward_ = false;
+      case Game::Input::Key::Q:removeMoveDirection(MoveDirections::backwards);
         break;
       default:break;
     }
   }
+}
+
+
+void CarCrash::move() {
+    if (checkMoveDirection(MoveDirections::forward)) {
+        float x = rectangle_.getPosition().x + moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
+        float y = rectangle_.getPosition().y + moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
+        rectangle_.setPosition({x, y});
+    if (checkMoveDirection(MoveDirections::left)) {
+      rectangle_.rotate(-2);
+    }
+    if (checkMoveDirection(MoveDirections::right)) {
+      rectangle_.rotate(2);
+    }
+  }
+
+  if (checkMoveDirection(MoveDirections::backwards)) {
+    float x = rectangle_.getPosition().x - moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
+    float y = rectangle_.getPosition().y - moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
+    rectangle_.setPosition({x, y});
+  if (checkMoveDirection(MoveDirections::left)) {
+      rectangle_.rotate(2);
+    }
+  if (checkMoveDirection(MoveDirections::right)) {
+      rectangle_.rotate(-2);
+    }
+  }
+}
+
+void CarCrash::appendMoveDirection(CarCrash::MoveDirections dir) {
+    moving_direction_ |= static_cast<uint32_t>(dir);
+}
+
+void CarCrash::removeMoveDirection(CarCrash::MoveDirections dir) {
+    moving_direction_ &= ~static_cast<uint32_t>(dir);
+}
+bool CarCrash::checkMoveDirection(MoveDirections dir) {
+    return moving_direction_ & static_cast<uint32_t>(dir);
 }
 
 }

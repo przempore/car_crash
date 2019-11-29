@@ -34,6 +34,6 @@ class Client {
   GRPCClient client_;
 };
 
-};
+}
 
 #endif //CC_CLIENT_HPP_

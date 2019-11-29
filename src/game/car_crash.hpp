@@ -29,16 +29,27 @@ class CarCrash : public Game::IGameApplication {
   void onInput(const Game::Input::Keyboard keyboard) override;
 
  private:
+  void move();
+
+  enum class MoveDirections : uint32_t {
+    forward = 1 << 0,
+    right = 1 << 1,
+    backwards = 1 << 2,
+    left = 1 << 3,
+    stay_still = 1 << 4
+  };
+
+  void appendMoveDirection(MoveDirections dir);
+  void removeMoveDirection(MoveDirections dir);
+  bool checkMoveDirection(MoveDirections dir);
+
+ private:
   sf::RectangleShape rectangle_;
   uint32_t rectangle_id_;
-//  std::vector<sf::RectangleShape> rectangles_; // todo: to remove, client will have only one rectangle to control
 
-  bool move_forward_;
-  bool move_backward_;
-  bool move_left_;
-  bool move_right_;
   bool close_window_;
   const float moving_speed_;
+  uint32_t moving_direction_;
   CC::Client client_;
 };
 
