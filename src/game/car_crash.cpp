@@ -82,7 +82,6 @@ CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
                                             moving_speed_{2.5f},
                                             moving_direction_{0},
                                             client_{ip} {
-  // todo: client needs only its own rectangle, rest will get from server
   rectangle_.setPosition({201, 221});
   rectangle_.setOrigin({rectangle_.getSize().x / 4,  // TODO: x / 4 caused collision error
                         rectangle_.getSize().y / 2});
@@ -119,7 +118,6 @@ void CarCrash::onUpdate() {
 //    rectangle_.setFillColor(sf::Color::Blue);
 //  }
 
-  // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " rectangle_id_: " << rectangle_id_ << '\n'; // todo: remove debug logs
   client_.updateVehicle(rectangle_id_, toCcRectangle(rectangle_id_, rectangle_));
 }
 
@@ -187,6 +185,7 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
 
 
 void CarCrash::move() {
+    // todo: strange rectangle moving (origin in wrong place)
     if (checkMoveDirection(MoveDirections::forward)) {
         float x = rectangle_.getPosition().x + moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
         float y = rectangle_.getPosition().y + moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
