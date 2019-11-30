@@ -56,6 +56,7 @@ sf::RectangleShape toSfRectangle(CC::Rectangle r) {
   ret.setFillColor(toSfColor(r.color));
   ret.setPosition(sf::Vector2f(r.position.x, r.position.y));
   ret.setRotation(r.angle);
+  ret.setOrigin(sf::Vector2f(r.origin.x, r.origin.y));
   return ret;
 }
 
@@ -85,7 +86,6 @@ CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
   rectangle_.setPosition({201, 221});
   rectangle_.setOrigin({rectangle_.getSize().x / 4,  // TODO: x / 4 caused collision error
                         rectangle_.getSize().y / 2});
-  rectangle_.setOrigin({rectangle_.getSize().x / 2, rectangle_.getSize().y / 2});
 }
 
 void CarCrash::onStartup() {

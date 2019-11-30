@@ -71,6 +71,9 @@ Rectangle::Color translateToCCColor(::carcrash::Rectangle_Color color) {
   auto dimension = createGrpcPoint(from.dimension);
   auto& mut_dim = *to.mutable_dimension();
   mut_dim = dimension;
+  auto origin = createGrpcPoint(from.origin);
+  auto& mut_origin = *to.mutable_origin();
+  mut_origin = origin;
 
   return to;
 }
