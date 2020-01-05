@@ -90,12 +90,17 @@ CarCrash::CarCrash(const std::string& ip) : rectangle_(sf::Vector2f(120, 50)),
 
 void CarCrash::onStartup() {
   // 1. get all vehicles from server
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | getVehicles\n";
   auto vehicles_from_server = client_.getVehicles();
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | end getVehicles\n";
 
   // 2. find place on a game map where 'this' clients vehicle can be put
 
   // 3. register your vehicle
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | getId\n";
   rectangle_id_ = client_.getId();
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " rectangle_id_: " << rectangle_id_ << '\n';
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | end getId\n";
   rectangle_.setFillColor(COLORS[rectangle_id_ % COLORS.size()]);
   if (std::isinf(rectangle_id_)) {
     std::cout << "Rectangle id not set\n";
@@ -126,7 +131,9 @@ void CarCrash::onDraw(Game::Wrappers::Graphics &target) {
     target.close();
   }
 
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | getVehicles\n";
   auto vehicles_from_server = client_.getVehicles();
+  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | end getVehicles\n";
   for (const auto& v : vehicles_from_server) {
     target.draw(toSfRectangle(v));
   }
@@ -168,7 +175,6 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
       default:break;
     }
   } else {
-
     switch (keyboard.code) {
       case Game::Input::Key::A:removeMoveDirection(MoveDirections::forward);
         break;
@@ -185,7 +191,6 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
 
 
 void CarCrash::move() {
-    // todo: strange rectangle moving (origin in wrong place)
     if (checkMoveDirection(MoveDirections::forward)) {
         float x = rectangle_.getPosition().x + moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
         float y = rectangle_.getPosition().y + moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));

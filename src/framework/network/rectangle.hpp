@@ -35,6 +35,7 @@ struct Rectangle {
   Point dimension;
   Color color = Color::Black;
   Point origin;
+  bool is_colided = false;
 };
 
 static const std::unordered_map<Rectangle::Color, std::string> rectangle_color_dict {

@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
+	//codes "google.golang.org/grpc/codes"
+	//status "google.golang.org/grpc/status"
 	"log"
 	"net"
 
@@ -23,7 +23,7 @@ const (
 
 type server struct {
 	pb.UnimplementedCarCrashServer
-	vehicles []utils.Vehicles
+	vehicles []utils.Rectangle
 }
 
 func (s *server) GetNewId(ctx context.Context, req *empty.Empty) (*pb.Id, error) {
@@ -33,22 +33,27 @@ func (s *server) GetNewId(ctx context.Context, req *empty.Empty) (*pb.Id, error)
 
 func (s *server) GetVehicles(ctx context.Context, req *empty.Empty) (*pb.Vehicles, error) {
 	fmt.Printf("\n\tGetVehicles\n")
-	return nil, status.Errorf(codes.Unimplemented, "method GetVehicles not implemented")
+	out := new(pb.Vehicles)
+	return out, nil
 }
 
 func (s *server) UpdateVehicle(ctx context.Context, req *pb.VehicleWithId) (*empty.Empty, error) {
 	fmt.Printf("\n\tUpdateVehicle\n")
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateVehicle not implemented")
+	out := new(empty.Empty)
+	return out, nil
 }
 
 func (s *server) RegisterVehicle(ctx context.Context, req *pb.VehicleWithId) (*pb.Id, error) {
+	rectangle := req.Rectangle
+	s.vehicles = append(s.vehicles, utils.CopyFromGrpc(rectangle))
+	fmt.Printf("vehicles size: %d", len(s.vehicles))
 	fmt.Printf("\n\tRegisterVehicle\n")
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterVehicle not implemented")
+	return &pb.Id{Id: uint32(len(s.vehicles))}, nil
 }
 
 func (s *server) UnregisterVehicle(ctx context.Context, req *pb.Id) (*pb.Id, error) {
 	fmt.Printf("\n\tUnregisterVehicle\n")
-	return nil, status.Errorf(codes.Unimplemented, "method UnregisterVehicle not implemented")
+	return &pb.Id{Id: uint32(len(s.vehicles))}, nil
 }
 
 func main() {

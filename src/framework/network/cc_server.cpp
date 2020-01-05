@@ -6,7 +6,6 @@ namespace CC {
                                        const ::google::protobuf::Empty*,
                                        ::carcrash::Id *response) {
   // todo: id should be an atomic member to not send the same id to multiple clients
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " vehicles_ size: " << vehicles_.size() << '\n';
   response->set_id(vehicles_.size());
   return ::grpc::Status::OK;
 }
@@ -26,8 +25,6 @@ namespace CC {
                                             ::google::protobuf::Empty*) {
   const auto& id = request->id();
   
-  // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " id.id(): " << id.id() << '\n';
-
   vehicles_[id.id()] = copyFromGrpc(request->rectangle());
 
   return ::grpc::Status::OK;
@@ -44,7 +41,6 @@ namespace CC {
     std::cerr << __FILE__ << ':' << __LINE__ << " | Can not insert rectangle with id: " << id.id() << '\n';
     return ::grpc::Status::CANCELLED;
   }
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | vehicles_ size: " << vehicles_.size() << '\n';
   return ::grpc::Status::OK;
 }
 
@@ -52,12 +48,10 @@ namespace CC {
                                                 const ::carcrash::Id *request,
                                                 ::carcrash::Id*) {
   uint32_t id = request->id();
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ <<  " id: " << id << '\n';
   auto ret = vehicles_.erase(id);
   if (ret == 0) {
     std::cerr << __FILE__ << ':' << __LINE__ << " | Could not erase vehicle with id: " << id << ", not such id.";
   }
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__ << " | vehicles_ size: " << vehicles_.size() << '\n';
   return ::grpc::Status::OK;
 }
 
