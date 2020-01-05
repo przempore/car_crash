@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	//codes "google.golang.org/grpc/codes"
-	//status "google.golang.org/grpc/status"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	"log"
 	"net"
 
@@ -23,7 +23,7 @@ const (
 
 type server struct {
 	pb.UnimplementedCarCrashServer
-	vehicles []utils.Rectangle
+	vehicles map[uint32]utils.Rectangle
 }
 
 func (s *server) GetNewId(ctx context.Context, req *empty.Empty) (*pb.Id, error) {
@@ -45,14 +45,18 @@ func (s *server) UpdateVehicle(ctx context.Context, req *pb.VehicleWithId) (*emp
 
 func (s *server) RegisterVehicle(ctx context.Context, req *pb.VehicleWithId) (*pb.Id, error) {
 	rectangle := req.Rectangle
-	s.vehicles = append(s.vehicles, utils.CopyFromGrpc(rectangle))
-	fmt.Printf("vehicles size: %d", len(s.vehicles))
-	fmt.Printf("\n\tRegisterVehicle\n")
+	if rectangle == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method GetNewId not implemented")
+	}
+	new_id := len(s.vehicles)
+	s.vehicles[uint32(new_id)] = utils.CopyFromGrpc(rectangle)
+	fmt.Printf("RegisterVehicle | len(s.vehicles): %d\n", len(s.vehicles))
 	return &pb.Id{Id: uint32(len(s.vehicles))}, nil
 }
 
 func (s *server) UnregisterVehicle(ctx context.Context, req *pb.Id) (*pb.Id, error) {
-	fmt.Printf("\n\tUnregisterVehicle\n")
+	delete(s.vehicles, req.Id)
+	fmt.Printf("UnregisterVehicle | len(s.vehicles): %d\n", len(s.vehicles))
 	return &pb.Id{Id: uint32(len(s.vehicles))}, nil
 }
 
@@ -62,7 +66,9 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterCarCrashServer(s, &server{})
+	carCrashServer := new(server)
+	carCrashServer.vehicles = make(map[uint32]utils.Rectangle)
+	pb.RegisterCarCrashServer(s, carCrashServer)
 	fmt.Printf("Serving at tcp%s", port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
