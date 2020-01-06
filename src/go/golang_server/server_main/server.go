@@ -1,4 +1,4 @@
-//go:generate protoc -I ../proto/ ../proto/car_crash.proto --go_out=plugins=grpc:car_crash
+//go:generate protoc -I ../../../proto/ ../../../proto/car_crash.proto --go_out=plugins=grpc:../car_crash
 
 // Package main implements a server for Greeter service.
 package main
@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	"log"
 	"net"
 
@@ -32,9 +30,13 @@ func (s *server) GetNewId(ctx context.Context, req *empty.Empty) (*pb.Id, error)
 }
 
 func (s *server) GetVehicles(ctx context.Context, req *empty.Empty) (*pb.Vehicles, error) {
+	outVehicles := new(pb.Vehicles)
+	for _, r := range s.vehicles {
+		outVehicles.Rectangles = append(outVehicles.Rectangles, utils.CopyToGrpc(&r))
+	}
+
 	fmt.Printf("\n\tGetVehicles\n")
-	out := new(pb.Vehicles)
-	return out, nil
+	return outVehicles, nil
 }
 
 func (s *server) UpdateVehicle(ctx context.Context, req *pb.VehicleWithId) (*empty.Empty, error) {
@@ -45,11 +47,8 @@ func (s *server) UpdateVehicle(ctx context.Context, req *pb.VehicleWithId) (*emp
 
 func (s *server) RegisterVehicle(ctx context.Context, req *pb.VehicleWithId) (*pb.Id, error) {
 	rectangle := req.Rectangle
-	if rectangle == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method GetNewId not implemented")
-	}
-	new_id := len(s.vehicles)
-	s.vehicles[uint32(new_id)] = utils.CopyFromGrpc(rectangle)
+	newId := len(s.vehicles)
+	s.vehicles[uint32(newId)] = utils.CopyFromGrpc(rectangle)
 	fmt.Printf("RegisterVehicle | len(s.vehicles): %d\n", len(s.vehicles))
 	return &pb.Id{Id: uint32(len(s.vehicles))}, nil
 }

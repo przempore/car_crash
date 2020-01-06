@@ -25,7 +25,7 @@ else ()
     set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:gRPC::grpc_cpp_plugin>)
 endif ()
 
-get_filename_component(cc_proto "proto/car_crash.proto" ABSOLUTE)
+get_filename_component(cc_proto "${PROTO_DIR}/car_crash.proto" ABSOLUTE)
 get_filename_component(cc_proto_path "${cc_proto}" PATH)
 
 set(cc_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.pb.cc")
