@@ -9,7 +9,7 @@ void RectangleShape::setPosition(Size size) {
     shape_.setPosition({size.first, size.second});
 }
 
-RectangleShape::Size getPosition() {
+RectangleShape::Size RectangleShape::getPosition() {
     auto pos = shape_.getPosition();
     return {pos.x, pos.y};
 }
