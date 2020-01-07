@@ -22,12 +22,14 @@ class RectangleShape {
   RectangleShape& operator=(RectangleShape const&) = delete;
   RectangleShape& operator=(RectangleShape&&) = delete;
   void setPosition(Size size);
-  Size getPosition();
+  Size getPosition() const;
   void setOrigin(Size size);
+  Size getOrigin() const;
   Size getSize() const;
   void setFillColor(Color color);
-  float getRotation();
-  void rotate(uint32_t r);
+  Color getFillColor() const;
+  float getRotation() const;
+  void rotate(int32_t r);
 
  private:
   sf::RectangleShape shape_;

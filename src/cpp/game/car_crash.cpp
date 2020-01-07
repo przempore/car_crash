@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <cmath>
+#include <details/color.hpp>
 #include <iostream>
 #include <memory>
 
@@ -14,8 +15,8 @@ constexpr float getAngle(float degrees) {
   return degrees * static_cast<float>(M_PI) / 180.f;
 }
 
-CC::Rectangle::Color toGrpcColor(sf::Color color) {
-  switch (color.toInteger()) {
+CC::Rectangle::Color toGrpcColor(Game::Wrappers::Color color) {
+  switch (color.getUnderlying().toInteger()) {
     case 255:
       return CC::Rectangle::Color::Black;
     case 4294967295:
@@ -64,13 +65,14 @@ sf::Color toSfColor(CC::Rectangle::Color color) {
   return sf::Color::Magenta;
 }
 
-CC::Rectangle toCcRectangle(uint32_t id, const sf::RectangleShape& r) {
+CC::Rectangle toCcRectangle(uint32_t id,
+                            const Game::Wrappers::RectangleShape& r) {
   return {id,
-          {r.getPosition().x, r.getPosition().y},
+          {r.getPosition().first, r.getPosition().second},
           r.getRotation(),
-          {r.getSize().x, r.getSize().y},
+          {r.getSize().first, r.getSize().second},
           toGrpcColor(r.getFillColor()),
-          {r.getOrigin().x, r.getOrigin().y}};
+          {r.getOrigin().first, r.getOrigin().second}};
 }
 
 sf::RectangleShape toSfRectangle(CC::Rectangle r) {
@@ -97,7 +99,7 @@ const std::array COLORS = {
 namespace CC {
 
 CarCrash::CarCrash(const std::string& ip)
-    : rectangle_(sf::Vector2f(120, 50)),
+    : rectangle_({120, 50}),
       rectangle_id_(std::numeric_limits<uint32_t>::infinity()),
       close_window_{false},
       moving_speed_{2.5f},
@@ -105,8 +107,8 @@ CarCrash::CarCrash(const std::string& ip)
       client_{ip} {
   rectangle_.setPosition({201, 221});
   rectangle_.setOrigin(
-      {rectangle_.getSize().x / 4,  // TODO: x / 4 caused collision error
-       rectangle_.getSize().y / 2});
+      {rectangle_.getSize().first / 4,  // TODO: x / 4 caused collision error
+       rectangle_.getSize().second / 2});
 }
 
 void CarCrash::onStartup() {
@@ -170,20 +172,22 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
   if (keyboard.state == Game::Input::KeyState::Down) {
     switch (keyboard.code) {
       case Game::Input::Key::Left: {
-        rectangle_.setPosition({rectangle_.getPosition().x - moving_speed_,
-                                rectangle_.getPosition().y});
+        rectangle_.setPosition({rectangle_.getPosition().first - moving_speed_,
+                                rectangle_.getPosition().second});
       } break;
       case Game::Input::Key::Up: {
-        rectangle_.setPosition({rectangle_.getPosition().x,
-                                rectangle_.getPosition().y - moving_speed_});
+        rectangle_.setPosition(
+            {rectangle_.getPosition().first,
+             rectangle_.getPosition().second - moving_speed_});
       } break;
       case Game::Input::Key::Right: {
-        rectangle_.setPosition({rectangle_.getPosition().x + moving_speed_,
-                                rectangle_.getPosition().y});
+        rectangle_.setPosition({rectangle_.getPosition().first + moving_speed_,
+                                rectangle_.getPosition().second});
       } break;
       case Game::Input::Key::Down: {
-        rectangle_.setPosition({rectangle_.getPosition().x,
-                                rectangle_.getPosition().y + moving_speed_});
+        rectangle_.setPosition(
+            {rectangle_.getPosition().first,
+             rectangle_.getPosition().second + moving_speed_});
       } break;
       case Game::Input::Key::Escape:
         close_window_ = true;
@@ -195,8 +199,8 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
         appendMoveDirection(MoveDirections::left);
         break;
       case Game::Input::Key::W: {
-        std::cout << "shape position: " << rectangle_.getPosition().x << ", "
-                  << rectangle_.getPosition().y << '\n';
+        std::cout << "shape position: " << rectangle_.getPosition().first
+                  << ", " << rectangle_.getPosition().second << '\n';
       } break;
       case Game::Input::Key::A:
         appendMoveDirection(MoveDirections::forward);
@@ -229,9 +233,9 @@ void CarCrash::onInput(const Game::Input::Keyboard keyboard) {
 
 void CarCrash::move() {
   if (checkMoveDirection(MoveDirections::forward)) {
-    float x = rectangle_.getPosition().x +
+    float x = rectangle_.getPosition().first +
               moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
-    float y = rectangle_.getPosition().y +
+    float y = rectangle_.getPosition().second +
               moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
     rectangle_.setPosition({x, y});
     if (checkMoveDirection(MoveDirections::left)) {
@@ -243,9 +247,9 @@ void CarCrash::move() {
   }
 
   if (checkMoveDirection(MoveDirections::backwards)) {
-    float x = rectangle_.getPosition().x -
+    float x = rectangle_.getPosition().first -
               moving_speed_ * std::cos(getAngle(rectangle_.getRotation()));
-    float y = rectangle_.getPosition().y -
+    float y = rectangle_.getPosition().second -
               moving_speed_ * std::sin(getAngle(rectangle_.getRotation()));
     rectangle_.setPosition({x, y});
     if (checkMoveDirection(MoveDirections::left)) {

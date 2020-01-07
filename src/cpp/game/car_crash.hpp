@@ -1,7 +1,7 @@
 #ifndef CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 #define CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 
-#include <SFML/Graphics/RectangleShape.hpp>
+#include <details/rectangle_shape.hpp>
 #include <i_game_application.hpp>
 #include <network/cc_client.hpp>
 #include <string>
@@ -41,7 +41,7 @@ class CarCrash : public Game::IGameApplication {
   bool checkMoveDirection(MoveDirections dir);
 
  private:
-  sf::RectangleShape rectangle_;
+  Game::Wrappers::RectangleShape rectangle_;
   uint32_t rectangle_id_;
 
   bool close_window_;

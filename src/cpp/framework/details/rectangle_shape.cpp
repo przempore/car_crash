@@ -9,13 +9,18 @@ void RectangleShape::setPosition(Size size) {
   shape_.setPosition({size.first, size.second});
 }
 
-RectangleShape::Size RectangleShape::getPosition() {
+RectangleShape::Size RectangleShape::getPosition() const {
   auto pos = shape_.getPosition();
   return {pos.x, pos.y};
 }
 
 void RectangleShape::setOrigin(Size size) {
   shape_.setOrigin({size.first, size.second});
+}
+
+RectangleShape::Size RectangleShape::getOrigin() const {
+  auto origin = shape_.getOrigin();
+  return {origin.x, origin.y};
 }
 
 RectangleShape::Size RectangleShape::getSize() const {
@@ -27,8 +32,13 @@ void RectangleShape::setFillColor(Color color) {
   shape_.setFillColor(color.getUnderlying());
 }
 
-float RectangleShape::getRotation() { return shape_.getRotation(); }
+Color RectangleShape::getFillColor() const {
+  auto color = shape_.getFillColor();
+  return Color(color);
+}
 
-void RectangleShape::rotate(uint32_t r) { shape_.rotate(r); }
+float RectangleShape::getRotation() const { return shape_.getRotation(); }
+
+void RectangleShape::rotate(int32_t r) { shape_.rotate(r); }
 
 }  // namespace Game::Wrappers
