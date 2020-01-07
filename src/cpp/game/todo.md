@@ -1,4 +1,5 @@
 # **todo**
+Separate the whole project from SFML!!!
 
 ### **server**
 * contains all rectangles positions, angle, dimensions, color

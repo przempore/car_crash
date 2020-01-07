@@ -5,30 +5,63 @@
 
 namespace Game::Input {
 
-enum class KeyState {
-  Down,
-  Up
-};
+enum class KeyState { Down, Up };
 
 enum class Key : std::int32_t {
   Unknown = -1, // Unhandled key
   // letters
-  A = 0,  B,  C,  D,  E,  F,  G,  H,  I,  J,  K,  L,  M,  N,  O,  P,  Q,  R,  S,  T,  U,  V,  W,  X,  Y,  Z,
+  A = 0,
+  B,
+  C,
+  D,
+  E,
+  F,
+  G,
+  H,
+  I,
+  J,
+  K,
+  L,
+  M,
+  N,
+  O,
+  P,
+  Q,
+  R,
+  S,
+  T,
+  U,
+  V,
+  W,
+  X,
+  Y,
+  Z,
 
   // numbers
-  Num0,  Num1,  Num2,  Num3,  Num4,  Num5,  Num6,  Num7,  Num8,  Num9,
+  Num0,
+  Num1,
+  Num2,
+  Num3,
+  Num4,
+  Num5,
+  Num6,
+  Num7,
+  Num8,
+  Num9,
 
   // control keys
-      Escape,
+  Escape,
   LeftControl,
   LeftShift,
   LeftAlt,
-  LeftSystem,   // The left OS specific key: window (Windows and Linux), apple (MacOS X), ...
+  LeftSystem, // The left OS specific key: window (Windows and Linux), apple
+              // (MacOS X), ...
   RightControl,
   RightShift,
   RightAlt,
-  RightSystem,  // The right OS specific key: window (Windows and Linux), apple (MacOS X), ...
-  Menu,         // The Menu key
+  RightSystem, // The right OS specific key: window (Windows and Linux), apple
+               // (MacOS X), ...
+  Menu,        // The Menu key
 
   // special signs
   LeflBracket,  // The [ key
@@ -57,15 +90,41 @@ enum class Key : std::int32_t {
   Multiply,     // The * key
   Divide,       // The / key
   // arrows
-  Left,  Right,  Up,  Down,
+  Left,
+  Right,
+  Up,
+  Down,
 
   // The numpad numbers keys
-  Numpad0,  Numpad1,  Numpad2,  Numpad3,  Numpad4,  Numpad5,  Numpad6,  Numpad7,  Numpad8,  Numpad9,
-  F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10,  F11,  F12,  F13,  F14,  F15,
+  Numpad0,
+  Numpad1,
+  Numpad2,
+  Numpad3,
+  Numpad4,
+  Numpad5,
+  Numpad6,
+  Numpad7,
+  Numpad8,
+  Numpad9,
+  F1,
+  F2,
+  F3,
+  F4,
+  F5,
+  F6,
+  F7,
+  F8,
+  F9,
+  F10,
+  F11,
+  F12,
+  F13,
+  F14,
+  F15,
 
-  Pause,        // The Pause key
+  Pause, // The Pause key
 
-  KeyCount,     // Keep last -- the total number of keyboard keys
+  KeyCount, // Keep last -- the total number of keyboard keys
 };
 
 struct Keyboard {
@@ -73,6 +132,6 @@ struct Keyboard {
   Key code;
 };
 
-}
+} // namespace Game::Input
 
-#endif //CAR_CRASH_SRC_GAME_INPUT_HPP_
+#endif // CAR_CRASH_SRC_GAME_INPUT_HPP_

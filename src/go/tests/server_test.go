@@ -1,23 +1,27 @@
-//go:generate protoc -I ../../../proto/ ../../../proto/car_crash.proto --go_out=plugins=grpc:../car_crash
-
-// Package main implements a server for Greeter service.
-package main
+package server_tests
 
 import (
+	pb "../golang_server/car_crash"
+	utils "../golang_server/utilities"
 	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-
-	pb "../car_crash"
-	utils "../utilities"
+	//"os"
+	"testing"
 )
 
 const (
 	port = ":50051"
 )
 
-func main() {
+func TestTest(t *testing.T) {
+	if 1 != 1 {
+		t.Errorf("got '%d' want '%d'", 1, 1)
+	}
+}
+
+func TestServer(t *testing.T) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -31,3 +35,11 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
+
+//func testMain(m *testing.M) {
+//log.Println("Do stuff BEFORE the tests!")
+//exitVal := m.Run()
+//log.Println("Do stuff AFTER the tests!")
+
+//os.Exit(exitVal)
+//}
