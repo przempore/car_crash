@@ -8,7 +8,7 @@ namespace Game::Input {
 enum class KeyState { Down, Up };
 
 enum class Key : std::int32_t {
-  Unknown = -1, // Unhandled key
+  Unknown = -1,  // Unhandled key
   // letters
   A = 0,
   B,
@@ -54,41 +54,41 @@ enum class Key : std::int32_t {
   LeftControl,
   LeftShift,
   LeftAlt,
-  LeftSystem, // The left OS specific key: window (Windows and Linux), apple
-              // (MacOS X), ...
+  LeftSystem,  // The left OS specific key: window (Windows and Linux), apple
+               // (MacOS X), ...
   RightControl,
   RightShift,
   RightAlt,
-  RightSystem, // The right OS specific key: window (Windows and Linux), apple
-               // (MacOS X), ...
-  Menu,        // The Menu key
+  RightSystem,  // The right OS specific key: window (Windows and Linux), apple
+                // (MacOS X), ...
+  Menu,         // The Menu key
 
   // special signs
-  LeflBracket,  // The [ key
-  RightBracket, // The ] key
-  Semicolon,    // The ; key
-  Comma,        // The , key
-  Period,       // The . key
-  Quote,        // The ' key
-  Slash,        // The / key
-  Backslash,    // The \ key
-  Tilde,        // The ~ key
-  Equal,        // The = key
-  Hyphen,       // The - key (hyphen)
-  Space,        // The Space key
-  Enter,        // The Enter/Return keys
-  Backspace,    // The Backspace key
-  Tab,          // The Tabulation key
-  PageUp,       // The Page up key
-  PageDown,     // The Page down key
-  End,          // The End key
-  Home,         // The Home key
-  Insert,       // The Insert key
-  Delete,       // The Delete key
-  Add,          // The + key
-  Subtract,     // The - key (minus, usually from numpad)
-  Multiply,     // The * key
-  Divide,       // The / key
+  LeflBracket,   // The [ key
+  RightBracket,  // The ] key
+  Semicolon,     // The ; key
+  Comma,         // The , key
+  Period,        // The . key
+  Quote,         // The ' key
+  Slash,         // The / key
+  Backslash,     // The \ key
+  Tilde,         // The ~ key
+  Equal,         // The = key
+  Hyphen,        // The - key (hyphen)
+  Space,         // The Space key
+  Enter,         // The Enter/Return keys
+  Backspace,     // The Backspace key
+  Tab,           // The Tabulation key
+  PageUp,        // The Page up key
+  PageDown,      // The Page down key
+  End,           // The End key
+  Home,          // The Home key
+  Insert,        // The Insert key
+  Delete,        // The Delete key
+  Add,           // The + key
+  Subtract,      // The - key (minus, usually from numpad)
+  Multiply,      // The * key
+  Divide,        // The / key
   // arrows
   Left,
   Right,
@@ -122,9 +122,9 @@ enum class Key : std::int32_t {
   F14,
   F15,
 
-  Pause, // The Pause key
+  Pause,  // The Pause key
 
-  KeyCount, // Keep last -- the total number of keyboard keys
+  KeyCount,  // Keep last -- the total number of keyboard keys
 };
 
 struct Keyboard {
@@ -132,6 +132,6 @@ struct Keyboard {
   Key code;
 };
 
-} // namespace Game::Input
+}  // namespace Game::Input
 
-#endif // CAR_CRASH_SRC_GAME_INPUT_HPP_
+#endif  // CAR_CRASH_SRC_GAME_INPUT_HPP_

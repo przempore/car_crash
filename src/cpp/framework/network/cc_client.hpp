@@ -1,39 +1,40 @@
 #ifndef CC_CLIENT_HPP_
 #define CC_CLIENT_HPP_
 
+#include <grpcpp/grpcpp.h>
+
 #include "car_crash.grpc.pb.h"
 #include "rectangle.hpp"
-#include <grpcpp/grpcpp.h>
 
 namespace CC {
 
 class GRPCClient {
-public:
+ public:
   explicit GRPCClient(std::shared_ptr<::grpc::Channel> channel);
 
   uint32_t getId();
   std::vector<Rectangle> getVehicles();
-  uint32_t updateVehicle(uint32_t id, const Rectangle &vehicle);
-  uint32_t registerVehicle(const Rectangle &vehicle);
+  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
+  uint32_t registerVehicle(const Rectangle& vehicle);
   uint32_t unregisterVehicle(uint32_t id);
 
-private:
+ private:
   std::unique_ptr<carcrash::CarCrash::Stub> stub_;
 };
 
 class Client {
-public:
-  explicit Client(const std::string &ip = "localhost:50051");
+ public:
+  explicit Client(const std::string& ip = "localhost:50051");
   uint32_t getId();
   std::vector<Rectangle> getVehicles();
-  uint32_t updateVehicle(uint32_t id, const Rectangle &vehicle);
-  uint32_t registerVehicle(const Rectangle &vehicle);
+  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
+  uint32_t registerVehicle(const Rectangle& vehicle);
   uint32_t unregisterVehicle(uint32_t id);
 
-private:
+ private:
   GRPCClient client_;
 };
 
-} // namespace CC
+}  // namespace CC
 
-#endif // CC_CLIENT_HPP_
+#endif  // CC_CLIENT_HPP_

@@ -5,8 +5,8 @@
 
 namespace CC {
 
-bool isCollided(sf::RectangleShape &shape, sf::RectangleShape &shape1);
+bool isCollided(sf::RectangleShape& shape, sf::RectangleShape& shape1);
 
 }
 
-#endif // CAR_CRASH_SRC_COLLISION_DETECTION_HPP_
+#endif  // CAR_CRASH_SRC_COLLISION_DETECTION_HPP_

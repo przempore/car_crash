@@ -37,12 +37,12 @@ std::vector<Rectangle> GRPCClient::getVehicles() {
   std::vector<Rectangle> rectangles;
   std::transform(reply.rectangles().begin(), reply.rectangles().end(),
                  std::back_inserter(rectangles),
-                 [](const auto &r) { return copyFromGrpc(r); });
+                 [](const auto& r) { return copyFromGrpc(r); });
 
   return rectangles;
 }
 
-uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle &vehicle) {
+uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle& vehicle) {
   ::grpc::ClientContext context;
   ::carcrash::VehicleWithId request;
   ::google::protobuf::Empty empty;
@@ -68,7 +68,7 @@ uint32_t GRPCClient::updateVehicle(uint32_t id, const Rectangle &vehicle) {
   return id;
 }
 
-uint32_t GRPCClient::registerVehicle(const Rectangle &vehicle) {
+uint32_t GRPCClient::registerVehicle(const Rectangle& vehicle) {
   ::grpc::ClientContext context;
   ::carcrash::VehicleWithId request;
   ::carcrash::Rectangle rectangle;
@@ -109,18 +109,18 @@ uint32_t GRPCClient::unregisterVehicle(uint32_t id) {
   return reply.id();
 }
 
-Client::Client(const std::string &ip)
+Client::Client(const std::string& ip)
     : client_(grpc::CreateChannel(ip, grpc::InsecureChannelCredentials())) {}
 
 uint32_t Client::getId() { return client_.getId(); }
 
 std::vector<Rectangle> Client::getVehicles() { return client_.getVehicles(); }
 
-uint32_t Client::updateVehicle(uint32_t id, const Rectangle &vehicle) {
+uint32_t Client::updateVehicle(uint32_t id, const Rectangle& vehicle) {
   return client_.updateVehicle(id, vehicle);
 }
 
-uint32_t Client::registerVehicle(const Rectangle &vehicle) {
+uint32_t Client::registerVehicle(const Rectangle& vehicle) {
   return client_.registerVehicle(vehicle);
 }
 
@@ -128,4 +128,4 @@ uint32_t Client::unregisterVehicle(uint32_t id) {
   return client_.unregisterVehicle(id);
 }
 
-} // namespace CC
+}  // namespace CC

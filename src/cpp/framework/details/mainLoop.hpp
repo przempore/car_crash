@@ -7,8 +7,8 @@
 
 namespace CC {
 
-bool mainLoop(const ClientConfig &config = ClientConfig{});
+bool mainLoop(const ClientConfig& config = ClientConfig{});
 
-} // namespace CC
+}  // namespace CC
 
-#endif // CAR_CRASH_SRC_FRAMEWORK_DETAILS_MAINLOOP_HPP_
+#endif  // CAR_CRASH_SRC_FRAMEWORK_DETAILS_MAINLOOP_HPP_

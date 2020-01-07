@@ -10,22 +10,22 @@
 namespace CC {
 
 class CarCrash : public Game::IGameApplication {
-public:
-  explicit CarCrash(const std::string &ip);
+ public:
+  explicit CarCrash(const std::string& ip);
   ~CarCrash() override = default;
-  CarCrash(const CarCrash &) = delete;
-  CarCrash(CarCrash &&) = delete;
-  CarCrash operator=(const CarCrash &) = delete;
-  CarCrash operator=(CarCrash &&) = delete;
+  CarCrash(const CarCrash&) = delete;
+  CarCrash(CarCrash&&) = delete;
+  CarCrash operator=(const CarCrash&) = delete;
+  CarCrash operator=(CarCrash&&) = delete;
 
-public:
+ public:
   void onStartup() override;
   void onShutdown() override;
   void onUpdate() override;
-  void onDraw(Game::Wrappers::RenderWindow &target) override;
+  void onDraw(Game::Wrappers::RenderWindow& target) override;
   void onInput(const Game::Input::Keyboard keyboard) override;
 
-private:
+ private:
   void move();
 
   enum class MoveDirections : uint32_t {
@@ -40,7 +40,7 @@ private:
   void removeMoveDirection(MoveDirections dir);
   bool checkMoveDirection(MoveDirections dir);
 
-private:
+ private:
   sf::RectangleShape rectangle_;
   uint32_t rectangle_id_;
 
@@ -50,6 +50,6 @@ private:
   CC::Client client_;
 };
 
-} // namespace CC
+}  // namespace CC
 
-#endif // CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
+#endif  // CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_

@@ -28,16 +28,16 @@ bool lessOrEqual(const double value1, const double value2) {
 struct Point {
   double x, y;
 
-  inline Point operator-(const Point &other) {
+  inline Point operator-(const Point& other) {
     return {this->x - other.x, this->y - other.y};
   }
 
-  inline Point operator+(const Point &other) {
+  inline Point operator+(const Point& other) {
     return {this->x + other.x, this->y + other.y};
   }
 
-  friend std::ostream &operator<<(std::ostream &os, const Point &p);
-  friend bool operator<(const Point &lhs, const Point &rhs);
+  friend std::ostream& operator<<(std::ostream& os, const Point& p);
+  friend bool operator<(const Point& lhs, const Point& rhs);
 };
 
 constexpr std::uint32_t VERTEX_A_IDX = 0;
@@ -48,7 +48,7 @@ constexpr std::uint32_t RECTANGLE_APEXES_COUNT = 4;
 using RectangleApexes = std::array<Point, RECTANGLE_APEXES_COUNT>;
 
 // https://math.stackexchange.com/a/2518716
-RectangleApexes getRectangleVertices(const sf::RectangleShape &shape) {
+RectangleApexes getRectangleVertices(const sf::RectangleShape& shape) {
   auto angle = getRadianAngle(shape.getRotation());
   auto w = shape.getSize().x / 2;
   auto b = shape.getSize().y / 2;
@@ -85,37 +85,35 @@ bool pointInRectangle(Point m, RectangleApexes r) {
          lessOrEqual(0, dotBCBM) && lessOrEqual(dotBCBM, dotBCBC);
 }
 
-} // namespace
+}  // namespace
 
 namespace CC {
 
-std::ostream &operator<<(std::ostream &os, const Point &p) {
+std::ostream& operator<<(std::ostream& os, const Point& p) {
   os << "(" << p.x << "," << p.y << ")";
   return os;
 }
 
-inline bool operator<(const Point &lhs, const Point &rhs) {
+inline bool operator<(const Point& lhs, const Point& rhs) {
   return std::tie(lhs.x, lhs.y) < std::tie(rhs.x, rhs.y);
 }
 
 // https://www.gamedev.net/articles/programming/general-and-gameplay-programming/2d-rotated-rectangle-collision-r2604
-bool checkVehiclesDrivingBesides(sf::RectangleShape &shape,
-                                 sf::RectangleShape &shape1) {
+bool checkVehiclesDrivingBesides(sf::RectangleShape& shape,
+                                 sf::RectangleShape& shape1) {
   auto tv_apexes = getRectangleVertices(shape);
   auto ego_apexes = getRectangleVertices(shape1);
 
   for (size_t apex_idx = VERTEX_A_IDX; apex_idx < RECTANGLE_APEXES_COUNT;
        apex_idx++) {
-    if (pointInRectangle(tv_apexes[apex_idx], ego_apexes))
-      return true;
-    if (pointInRectangle(ego_apexes[apex_idx], tv_apexes))
-      return true;
+    if (pointInRectangle(tv_apexes[apex_idx], ego_apexes)) return true;
+    if (pointInRectangle(ego_apexes[apex_idx], tv_apexes)) return true;
   }
 
   return false;
 }
 
-bool isCollided(sf::RectangleShape &shape, sf::RectangleShape &shape1) {
+bool isCollided(sf::RectangleShape& shape, sf::RectangleShape& shape1) {
   const double distance =
       std::hypot(shape.getPosition().x - shape1.getPosition().x,
                  shape.getPosition().y - shape1.getPosition().y);
@@ -133,4 +131,4 @@ bool isCollided(sf::RectangleShape &shape, sf::RectangleShape &shape1) {
   return false;
 }
 
-} // namespace CC
+}  // namespace CC

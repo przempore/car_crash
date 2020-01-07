@@ -14,7 +14,7 @@ struct Point {
   float y = std::numeric_limits<float>::infinity();
 };
 
-std::ostream &operator<<(std::ostream &os, const Point &p);
+std::ostream& operator<<(std::ostream& os, const Point& p);
 
 struct Rectangle {
   enum class Color {
@@ -51,14 +51,14 @@ static const std::unordered_map<Rectangle::Color, std::string>
         {Rectangle::Color::Transparent, "Color::Transparent"},
     };
 
-std::ostream &operator<<(std::ostream &os, const Rectangle &r);
+std::ostream& operator<<(std::ostream& os, const Rectangle& r);
 
 ::carcrash::Rectangle_Color translateToGrpcColor(Rectangle::Color color);
 Rectangle::Color translateToCCColor(::carcrash::Rectangle_Color color);
-::carcrash::Point createGrpcPoint(const Point &p);
-::carcrash::Rectangle copyToGrpc(const Rectangle &from);
-Rectangle copyFromGrpc(const ::carcrash::Rectangle &from);
+::carcrash::Point createGrpcPoint(const Point& p);
+::carcrash::Rectangle copyToGrpc(const Rectangle& from);
+Rectangle copyFromGrpc(const ::carcrash::Rectangle& from);
 
-} // namespace CC
+}  // namespace CC
 
-#endif // RECTANGLE_HPP_
+#endif  // RECTANGLE_HPP_

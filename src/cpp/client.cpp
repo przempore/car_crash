@@ -4,7 +4,7 @@
 
 #include "framework/details/mainLoop.hpp"
 
-int main(const int argc, const char **argv) {
+int main(const int argc, const char** argv) {
   std::string ip = "localhost:50051";
   if (argc > 1) {
     const std::regex ip_regex(
