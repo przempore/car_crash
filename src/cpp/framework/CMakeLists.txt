@@ -21,5 +21,5 @@ target_link_libraries(${PROJECT_NAME}
         )
 
 
-add_subdirectory(details)
+add_subdirectory(graphics)
 add_subdirectory(network)

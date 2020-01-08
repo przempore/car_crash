@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "details/render_window.hpp"
+#include "graphics/render_window.hpp"
 #include "input.hpp"
 
 namespace Game {

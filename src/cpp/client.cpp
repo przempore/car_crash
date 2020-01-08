@@ -2,7 +2,7 @@
 #include <regex>
 #include <string>
 
-#include "framework/details/mainLoop.hpp"
+#include "framework/graphics/mainLoop.hpp"
 
 int main(const int argc, const char** argv) {
   std::string ip = "localhost:50051";

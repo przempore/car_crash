@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <cmath>
-#include <details/color.hpp>
+#include <graphics/color.hpp>
 #include <iostream>
 #include <memory>
 

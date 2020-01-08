@@ -1,7 +1,7 @@
 #ifndef CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 #define CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 
-#include <details/rectangle_shape.hpp>
+#include <graphics/rectangle_shape.hpp>
 #include <i_game_application.hpp>
 #include <network/cc_client.hpp>
 #include <string>

@@ -60,11 +60,11 @@ namespace CC {
 }
 
 void CCGRPCService::checkForCollisions() {
-  // std::any_of(vehicles_.begin(), vehicles_.end());
   // for (size_t i = 0; i < vehicles_.size(); i++) {
-  // for (size_t j = i; j < vehicles_.size();j++) {
+  // for (size_t j = i; j < vehicles_.size(); j++) {
   // if (isCollided(vehicles_[i], vehicles_[j])) {
-  // std::cerr << "vehicles_[" << i << "] and vehicles_[" << i << "]
+  // std::cerr << "vehicles_[" << i << "] and vehicles_[" << j
+  //<< "] are colliding!\n";
   //}
   //}
   //}
