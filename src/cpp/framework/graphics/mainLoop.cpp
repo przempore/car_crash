@@ -1,7 +1,7 @@
 #include "mainLoop.hpp"
 
 #include "../i_game_application.hpp"
-#include "input.hpp"
+#include "../utilities/input.hpp"
 #include "render_window.hpp"
 
 namespace Game {

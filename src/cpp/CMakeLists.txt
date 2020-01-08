@@ -13,7 +13,6 @@ add_executable(${PROJECT_NAME}_client)
 
 target_sources(${PROJECT_NAME}_client PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/client.cpp>
-        $<TARGET_OBJECTS:sfml_wrappers>
         $<TARGET_OBJECTS:game_impl>
         )
 
@@ -27,7 +26,8 @@ target_link_libraries(${PROJECT_NAME}_client
         ${SFML2_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        game_application
+        $<TARGET_OBJECTS:sfml_wrappers>
+        game_framework
         )
 
 # server
@@ -36,8 +36,6 @@ add_executable(${PROJECT_NAME}_server)
 
 target_sources(${PROJECT_NAME}_server PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/server.cpp>
-        $<TARGET_OBJECTS:sfml_wrappers>
-        $<TARGET_OBJECTS:game_impl>
         )
 
 target_include_directories(${PROJECT_NAME}_server
@@ -50,5 +48,7 @@ target_link_libraries(${PROJECT_NAME}_server
         ${SFML2_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        game_application
+        game_framework
+        $<TARGET_OBJECTS:sfml_wrappers>
+        $<TARGET_OBJECTS:game_impl>
         )

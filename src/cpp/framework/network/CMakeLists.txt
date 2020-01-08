@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(cc_grpc C CXX)
+project(cc_network C CXX)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 

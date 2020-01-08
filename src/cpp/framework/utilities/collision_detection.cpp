@@ -48,14 +48,15 @@ constexpr std::uint32_t RECTANGLE_APEXES_COUNT = 4;
 using RectangleApexes = std::array<Point, RECTANGLE_APEXES_COUNT>;
 
 // https://math.stackexchange.com/a/2518716
-RectangleApexes getRectangleVertices(const sf::RectangleShape& shape) {
+RectangleApexes getRectangleVertices(
+    const Game::Wrappers::RectangleShape& shape) {
   auto angle = getRadianAngle(shape.getRotation());
-  auto w = shape.getSize().x / 2;
-  auto b = shape.getSize().y / 2;
+  auto w = shape.getSize().first / 2;
+  auto b = shape.getSize().second / 2;
   Point u{w * std::cos(angle), w * std::sin(angle)};
   Point v{-b * std::sin(angle), b * std::cos(angle)};
 
-  Point Zc{shape.getPosition().x, shape.getPosition().y};
+  Point Zc{shape.getPosition().first, shape.getPosition().second};
 
   return {
       Zc - u + v,
@@ -99,8 +100,8 @@ inline bool operator<(const Point& lhs, const Point& rhs) {
 }
 
 // https://www.gamedev.net/articles/programming/general-and-gameplay-programming/2d-rotated-rectangle-collision-r2604
-bool checkVehiclesDrivingBesides(sf::RectangleShape& shape,
-                                 sf::RectangleShape& shape1) {
+bool checkVehiclesDrivingBesides(Game::Wrappers::RectangleShape& shape,
+                                 Game::Wrappers::RectangleShape& shape1) {
   auto tv_apexes = getRectangleVertices(shape);
   auto ego_apexes = getRectangleVertices(shape1);
 
@@ -113,14 +114,17 @@ bool checkVehiclesDrivingBesides(sf::RectangleShape& shape,
   return false;
 }
 
-bool isCollided(sf::RectangleShape& shape, sf::RectangleShape& shape1) {
+bool isCollided(Game::Wrappers::RectangleShape& shape,
+                Game::Wrappers::RectangleShape& shape1) {
   const double distance =
-      std::hypot(shape.getPosition().x - shape1.getPosition().x,
-                 shape.getPosition().y - shape1.getPosition().y);
-  const auto traffic_vehicle_diagonal = std::sqrt(
-      std::pow(shape.getSize().x, 2.0) + std::pow(shape.getSize().y, 2.0));
-  const auto ego_vehicle_diagonal = std::sqrt(
-      std::pow(shape1.getSize().x, 2.0) + std::pow(shape1.getSize().y, 2.0));
+      std::hypot(shape.getPosition().first - shape1.getPosition().first,
+                 shape.getPosition().second - shape1.getPosition().second);
+  const auto traffic_vehicle_diagonal =
+      std::sqrt(std::pow(shape.getSize().first, 2.0) +
+                std::pow(shape.getSize().second, 2.0));
+  const auto ego_vehicle_diagonal =
+      std::sqrt(std::pow(shape1.getSize().first, 2.0) +
+                std::pow(shape1.getSize().second, 2.0));
   const auto sum_of_half_diagonals =
       traffic_vehicle_diagonal / 2 + ego_vehicle_diagonal / 2;
 

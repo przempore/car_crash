@@ -7,7 +7,7 @@
 #include <iostream>
 #include <memory>
 
-#include "collision_detection.hpp"
+#include "utilities/collision_detection.hpp"
 
 namespace {
 
@@ -158,11 +158,11 @@ void CarCrash::onDraw(Game::Wrappers::RenderWindow& target) {
     target.close();
   }
 
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__
-            << " | getVehicles\n";
+  // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__
+  //<< " | getVehicles\n";
   auto vehicles_from_server = client_.getVehicles();
-  std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__
-            << " | end getVehicles\n";
+  // std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__
+  //<< " | end getVehicles\n";
   for (const auto& v : vehicles_from_server) {
     target.draw(toSfRectangle(v));
   }

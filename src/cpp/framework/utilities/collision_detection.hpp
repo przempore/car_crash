@@ -1,11 +1,12 @@
 #ifndef CAR_CRASH_SRC_COLLISION_DETECTION_HPP_
 #define CAR_CRASH_SRC_COLLISION_DETECTION_HPP_
 
-#include <SFML/Graphics.hpp>
+#include "../graphics/rectangle_shape.hpp"
 
 namespace CC {
 
-bool isCollided(sf::RectangleShape& shape, sf::RectangleShape& shape1);
+bool isCollided(Game::Wrappers::RectangleShape& shape,
+                Game::Wrappers::RectangleShape& shape1);
 
 }
 

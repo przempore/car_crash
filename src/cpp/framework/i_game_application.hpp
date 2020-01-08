@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "graphics/render_window.hpp"
-#include "input.hpp"
+#include "utilities/input.hpp"
 
 namespace Game {
 
