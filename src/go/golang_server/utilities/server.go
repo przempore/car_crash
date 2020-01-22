@@ -30,6 +30,9 @@ func (s *Server) GetVehicles(ctx context.Context, req *empty.Empty) (*pb.Vehicle
 
 func (s *Server) UpdateVehicle(ctx context.Context, req *pb.VehicleWithId) (*empty.Empty, error) {
 	fmt.Printf("\n\tUpdateVehicle\n")
+
+	s.Vehicles[req.Id.Id] = CopyFromGrpc(req.Rectangle)
+
 	out := new(empty.Empty)
 	return out, nil
 }

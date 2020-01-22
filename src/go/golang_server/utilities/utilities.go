@@ -84,14 +84,23 @@ func CopyToGrpc(r *Rectangle) *pb.Rectangle {
 	var toReturn pb.Rectangle
 
 	toReturn.Id = r.Id
-	toReturn.Position.X = r.Position.X
-	toReturn.Position.Y = r.Position.Y
+	position := pb.Point{
+		X: r.Position.X,
+		Y: r.Position.Y,
+	}
+	toReturn.Position = &position
 	toReturn.Angle = r.Angle
-	toReturn.Dimension.X = r.Dimension.X
-	toReturn.Dimension.Y = r.Dimension.Y
+	dimension := pb.Point{
+		X: r.Dimension.X,
+		Y: r.Dimension.Y,
+	}
+	toReturn.Dimension = &dimension
 	toReturn.Color = tranlateToGRPCColor(r.Color)
-	toReturn.Origin.X = r.Origin.X
-	toReturn.Origin.Y = r.Origin.Y
+	origin := pb.Point{
+		X: r.Origin.X,
+		Y: r.Origin.Y,
+	}
+	toReturn.Origin = &origin
 
 	return &toReturn
 }

@@ -1,0 +1,14 @@
+-x
+c++
+-DCARES_STATICLIB
+-Dgame_application_EXPORTS
+-I/home/przemo/Projects/car_crash/src/cpp/SYSTEM
+-I/home/przemo/Projects/car_crash/src/cpp/framework
+-I/home/przemo/Projects/car_crash/src/cpp/framework/details/..
+-I/home/przemo/Projects/car_crash/src/cpp/game
+-I/home/przemo/Projects/car_crash/src/cpp/game/../framework
+-I/home/przemo/Projects/car_crash/third_party/SFML/include
+-I/tmp/tmpXmhuZN/src/cpp/framework/network
+-Wall
+-Wextra
+-std=gnu++17

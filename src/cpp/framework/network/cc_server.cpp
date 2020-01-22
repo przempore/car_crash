@@ -1,5 +1,7 @@
 #include "cc_server.hpp"
 
+//#include "../utilities/collision_detection.hpp"
+
 namespace CC {
 
 ::grpc::Status CCGRPCService::GetNewId(::grpc::ServerContext*,
@@ -60,14 +62,14 @@ namespace CC {
 }
 
 void CCGRPCService::checkForCollisions() {
-  // for (size_t i = 0; i < vehicles_.size(); i++) {
-  // for (size_t j = i; j < vehicles_.size(); j++) {
-  // if (isCollided(vehicles_[i], vehicles_[j])) {
-  // std::cerr << "vehicles_[" << i << "] and vehicles_[" << j
-  //<< "] are colliding!\n";
-  //}
-  //}
-  //}
+  //  for (size_t i = 0; i < vehicles_.size(); i++) {
+  //    for (size_t j = i; j < vehicles_.size(); j++) {
+  //      if (isCollided(vehicles_[i], vehicles_[j])) {
+  //        std::cerr << "vehicles_[" << i << "] and vehicles_[" << j
+  //                  << "] are colliding!\n";
+  //      }
+  //    }
+  //  }
 }
 
 Server::Server(std::string server_address)

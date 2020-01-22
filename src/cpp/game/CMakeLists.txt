@@ -3,6 +3,8 @@ project(game_impl)
 
 add_library(${PROJECT_NAME} OBJECT)
 
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/../framework/network/")
+
 target_sources(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/car_crash.cpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/car_crash.hpp>

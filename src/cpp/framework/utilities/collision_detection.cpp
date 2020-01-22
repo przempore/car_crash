@@ -36,7 +36,7 @@ struct Point {
     return {this->x + other.x, this->y + other.y};
   }
 
-  friend std::ostream& operator<<(std::ostream& os, const Point& p);
+  // friend std::ostream& operator<<(std::ostream& os, const Point& p);
   friend bool operator<(const Point& lhs, const Point& rhs);
 };
 
@@ -90,18 +90,18 @@ bool pointInRectangle(Point m, RectangleApexes r) {
 
 namespace CC {
 
-std::ostream& operator<<(std::ostream& os, const Point& p) {
-  os << "(" << p.x << "," << p.y << ")";
-  return os;
-}
+// std::ostream& operator<<(std::ostream& os, const Point& p) {
+// os << "(" << p.x << "," << p.y << ")";
+// return os;
+//}
 
 inline bool operator<(const Point& lhs, const Point& rhs) {
   return std::tie(lhs.x, lhs.y) < std::tie(rhs.x, rhs.y);
 }
 
 // https://www.gamedev.net/articles/programming/general-and-gameplay-programming/2d-rotated-rectangle-collision-r2604
-bool checkVehiclesDrivingBesides(Game::Wrappers::RectangleShape& shape,
-                                 Game::Wrappers::RectangleShape& shape1) {
+bool checkVehiclesDrivingBesides(const Game::Wrappers::RectangleShape& shape,
+        const Game::Wrappers::RectangleShape& shape1) {
   auto tv_apexes = getRectangleVertices(shape);
   auto ego_apexes = getRectangleVertices(shape1);
 
@@ -114,8 +114,8 @@ bool checkVehiclesDrivingBesides(Game::Wrappers::RectangleShape& shape,
   return false;
 }
 
-bool isCollided(Game::Wrappers::RectangleShape& shape,
-                Game::Wrappers::RectangleShape& shape1) {
+bool isCollided(const Game::Wrappers::RectangleShape& shape,
+                const Game::Wrappers::RectangleShape& shape1) {
   const double distance =
       std::hypot(shape.getPosition().first - shape1.getPosition().first,
                  shape.getPosition().second - shape1.getPosition().second);
