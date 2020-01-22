@@ -3,7 +3,7 @@ project(car_crash)
 
 find_package(SFML2 COMPONENTS sfml-graphics sfml-window sfml-system sfml-audio REQUIRED)
 
-include_directories("${CMAKE_CURRENT_BINARY_DIR}/framework/network")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(framework)
 add_subdirectory(game)
@@ -13,25 +13,27 @@ add_executable(${PROJECT_NAME}_client)
 
 target_sources(${PROJECT_NAME}_client PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/client.cpp>
-        $<TARGET_OBJECTS:game_impl>
         )
 
 target_include_directories(${PROJECT_NAME}_client
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framework
-        ${CMAKE_CURRENT_SOURCE_DIR}/game
+               ${CMAKE_CURRENT_SOURCE_DIR}/game
         SYSTEM PRIVATE ${SFML2_INCLUDE}
         )
 
 target_link_libraries(${PROJECT_NAME}_client
+        $<TARGET_OBJECTS:game_impl>
+        $<TARGET_OBJECTS:sfml_wrappers>
+        $<TARGET_OBJECTS:cc_network>
+        $<TARGET_OBJECTS:utilities>
         ${SFML2_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        $<TARGET_OBJECTS:sfml_wrappers>
-        game_framework
         )
 
 # server
-# todo: remove client dependency from server
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/framework/network/")
+
 add_executable(${PROJECT_NAME}_server)
 
 target_sources(${PROJECT_NAME}_server PUBLIC
@@ -40,15 +42,16 @@ target_sources(${PROJECT_NAME}_server PUBLIC
 
 target_include_directories(${PROJECT_NAME}_server
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framework
-        ${CMAKE_CURRENT_SOURCE_DIR}/game
+               ${CMAKE_CURRENT_SOURCE_DIR}/game
         SYSTEM PRIVATE ${SFML2_INCLUDE}
         )
 
 target_link_libraries(${PROJECT_NAME}_server
+        $<TARGET_OBJECTS:cc_network>
+        $<TARGET_OBJECTS:game_impl>
+        $<TARGET_OBJECTS:sfml_wrappers>
+        $<TARGET_OBJECTS:utilities>
         ${SFML2_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        game_framework
-        $<TARGET_OBJECTS:sfml_wrappers>
-        $<TARGET_OBJECTS:game_impl>
         )

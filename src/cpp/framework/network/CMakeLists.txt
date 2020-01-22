@@ -9,7 +9,7 @@ if (GRPC_AS_SUBMODULE)
     set(_GRPC_GRPCPP_UNSECURE grpc++_unsecure)
     set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
 else ()
-    set(protobuf_MODULE_COMPATIBLE TRUE)
+    set(protobuf_MODULE_COMPATIBLE2 TRUE)
     find_package(Protobuf CONFIG REQUIRED)
     message(STATUS "Using protobuf ${protobuf_VERSION}")
 
@@ -47,15 +47,11 @@ add_custom_command(
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
-
 add_library(${PROJECT_NAME} OBJECT)
 
 target_sources(${PROJECT_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_server.hpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_server.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_client.hpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cc_client.cpp>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/rectangle.hpp>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/rectangle.cpp>
         ${cc_proto_srcs}
         ${cc_grpc_srcs}

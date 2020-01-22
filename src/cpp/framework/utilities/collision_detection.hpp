@@ -5,8 +5,8 @@
 
 namespace CC {
 
-bool isCollided(Game::Wrappers::RectangleShape& shape,
-                Game::Wrappers::RectangleShape& shape1);
+bool isCollided(const Game::Wrappers::RectangleShape& shape,
+                const Game::Wrappers::RectangleShape& shape1);
 
 }
 
