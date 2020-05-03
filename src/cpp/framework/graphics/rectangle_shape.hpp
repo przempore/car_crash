@@ -1,7 +1,7 @@
 #ifndef CAR_CRASH_SRC_DETAILS_RECTANGLE_SHAPE
 #define CAR_CRASH_SRC_DETAILS_RECTANGLE_SHAPE
 
-#include <SFML/Graphics/RectangleShape.hpp>
+#include "SFML/Graphics/RectangleShape.hpp"
 #include <string>
 #include <utility>
 

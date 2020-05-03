@@ -39,7 +39,7 @@ class CCGRPCService final : public carcrash::CarCrash::Service {
 
 class Server final {
  public:
-  explicit Server(std::string server_address = "0.0.0.0:50051");
+  explicit Server(std::string server_address = "localhost:50051");
   ~Server();
   Server(const Server&) = delete;
   Server(Server&&) = delete;

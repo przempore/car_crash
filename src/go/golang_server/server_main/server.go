@@ -5,9 +5,10 @@ package main
 
 import (
 	"fmt"
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	"google.golang.org/grpc"
 
 	pb "../car_crash"
 	utils "../utilities"

@@ -1,10 +1,10 @@
 package server_tests
 
 import (
+	"testing"
+
 	pb "../golang_server/car_crash"
 	utils "../golang_server/utilities"
-	"fmt"
-	"testing"
 )
 
 func TestCopyToGrpc(t *testing.T) {
@@ -43,8 +43,6 @@ func TestCopyToGrpc(t *testing.T) {
 			Y: 567,
 		},
 	}
-	fmt.Printf("got: %+v\n", got)
-	fmt.Printf("expected: %+v\n", expected)
 	if got.Id != expected.Id ||
 		got.Position.X != expected.Position.X ||
 		got.Position.Y != expected.Position.Y ||
@@ -94,8 +92,6 @@ func TestCopyFromGrpc(t *testing.T) {
 			Y: 567,
 		},
 	}
-	fmt.Printf("got: %+v\n", got)
-	fmt.Printf("expected: %+v\n", expected)
 	if got != expected {
 		t.Errorf("got '%+v' want '%+v'", got, expected)
 	}

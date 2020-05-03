@@ -119,3 +119,7 @@ func CopyFromGrpc(req *pb.Rectangle) Rectangle {
 
 	return toReturn
 }
+
+func CheckCollisions(f *pb.Rectangle, s *pb.Rectangle) bool {
+	return false
+}

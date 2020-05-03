@@ -1,5 +1,7 @@
 #include "mainLoop.hpp"
 
+#include <iostream>
+
 #include "../i_game_application.hpp"
 #include "../utilities/input.hpp"
 #include "render_window.hpp"

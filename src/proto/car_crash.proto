@@ -3,6 +3,7 @@ syntax = "proto3";
 package carcrash;
 
 import "google/protobuf/empty.proto";
+// import "grpc/src/proto/grpc/testing/empty.proto";
 
 message Point {
     float x = 1;
@@ -44,10 +45,16 @@ message VehicleWithId {
 }
 
 service CarCrash {
+    // rpc GetNewId (grpc.testing.Empty) returns (Id) {
+    // }
     rpc GetNewId (google.protobuf.Empty) returns (Id) {
     }
+    // rpc GetVehicles (grpc.testing.Empty) returns (Vehicles) {
+    // }
     rpc GetVehicles (google.protobuf.Empty) returns (Vehicles) {
     }
+    // rpc UpdateVehicle (VehicleWithId) returns (grpc.testing.Empty) {
+    // }
     rpc UpdateVehicle (VehicleWithId) returns (google.protobuf.Empty) {
     }
     rpc RegisterVehicle (VehicleWithId) returns (Id) {

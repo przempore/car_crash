@@ -39,8 +39,10 @@ add_custom_command(
         ARGS --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
         --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
         -I "${cc_proto_path}"
+        -I "${THIRD_PARTY_SOURCE_DIR}"
         --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
         "${cc_proto}"
+
         DEPENDS "${cc_proto}"
 )
 
@@ -60,4 +62,5 @@ target_sources(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
+        ${THIRD_PARTY_SOURCE_DIR}
         )
