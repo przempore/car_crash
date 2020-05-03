@@ -1,11 +1,12 @@
 #ifndef CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 #define CAR_CRASH_SRC_IMPL_CAR_CRASH_HPP_
 
-#include <graphics/rectangle_shape.hpp>
-#include <i_game_application.hpp>
-#include <network/cc_client.hpp>
 #include <string>
 #include <vector>
+
+#include "framework/graphics/rectangle_shape.hpp"
+#include "framework/i_game_application.hpp"
+#include "framework/network/cc_client.hpp"
 
 namespace CC {
 

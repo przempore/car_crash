@@ -10,10 +10,10 @@ class Color {
   Color(sf::Color c);
   ~Color() = default;
   Color() = delete;
-  Color(Color const&) = delete;
-  Color(Color&&) = delete;
-  Color& operator=(Color const&) = delete;
-  Color& operator=(Color&&) = delete;
+  Color(Color const&) = default;
+  Color(Color&&) = default;
+  Color& operator=(Color const&) = default;
+  Color& operator=(Color&&) = default;
 
  public:
   sf::Color getUnderlying();

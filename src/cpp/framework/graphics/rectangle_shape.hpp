@@ -29,7 +29,7 @@ class RectangleShape {
   void setFillColor(Color color);
   Color getFillColor() const;
   float getRotation() const;
-  void rotate(int32_t r);
+  void rotate(float r);
 
  private:
   sf::RectangleShape shape_;

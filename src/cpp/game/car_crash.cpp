@@ -1,13 +1,13 @@
 #define _USE_MATH_DEFINES
-#include "car_crash.hpp"
+#include "game/car_crash.hpp"
 
-#include <SFML/Graphics/Color.hpp>
 #include <cmath>
-#include <graphics/color.hpp>
 #include <iostream>
 #include <memory>
+#include <SFML/Graphics/Color.hpp>
 
-#include "utilities/collision_detection.hpp"
+#include "framework/graphics/color.hpp"
+#include "framework/utilities/collision_detection.hpp"
 
 namespace {
 
@@ -130,10 +130,10 @@ void CarCrash::onStartup() {
   std::cout << __FILE__ << ':' << __LINE__ << " | " << __FUNCTION__
             << " | end getId\n";
   rectangle_.setFillColor(COLORS[rectangle_id_ % COLORS.size()]);
-  if (std::isinf(rectangle_id_)) {
-    std::cout << "Rectangle id not set\n";
-    return;
-  }
+  // if (std::isinf(rectangle_id_)) {
+  //   std::cout << "Rectangle id not set\n";
+  //   return;
+  // }
   client_.registerVehicle(toCcRectangle(rectangle_id_, rectangle_));
 }
 

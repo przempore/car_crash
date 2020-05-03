@@ -39,6 +39,6 @@ Color RectangleShape::getFillColor() const {
 
 float RectangleShape::getRotation() const { return shape_.getRotation(); }
 
-void RectangleShape::rotate(int32_t r) { shape_.rotate(r); }
+void RectangleShape::rotate(float r) { shape_.rotate(r); }
 
-}  // namespace Game::Wrappers
+} // namespace Game::Wrappers
