@@ -1,35 +1,29 @@
 cmake_minimum_required(VERSION 3.14)
 project(car_crash)
 
-if(MSVC)
-  add_definitions(-D_WIN32_WINNT=0x600)
-endif()
+if (MSVC)
+    add_definitions(-D_WIN32_WINNT=0x600)
+endif ()
 
-find_package(SFML2 COMPONENTS sfml-graphics sfml-window sfml-system sfml-audio REQUIRED)
+#find_package(SFML CONFIG REQUIRED)
+find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-if (GRPC_AS_SUBMODULE)
-    set(_PROTOBUF_LIBPROTOBUF libprotobuf)
-    set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
-    set(_GRPC_GRPCPP_UNSECURE grpc++_unsecure)
-    set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
-else ()
-    set(protobuf_MODULE_COMPATIBLE2 TRUE)
-    find_package(protobuf CONFIG REQUIRED)
-    message(STATUS "Using protobuf ${protobuf_VERSION}")
+set(protobuf_MODULE_COMPATIBLE2 TRUE)
+find_package(protobuf CONFIG REQUIRED)
+message(STATUS "Using protobuf ${protobuf_VERSION}")
 
-    set(_PROTOBUF_LIBPROTOBUF protobuf::libprotobuf)
-    set(_PROTOBUF_PROTOC $<TARGET_FILE:protobuf::protoc>)
+set(_PROTOBUF_LIBPROTOBUF protobuf::libprotobuf)
+set(_PROTOBUF_PROTOC $<TARGET_FILE:protobuf::protoc>)
 
-    # Find gRPC installation
-    # Looks for gRPCConfig.cmake file installed by gRPC's cmake installation.
-    find_package(gRPC CONFIG REQUIRED)
-    message(STATUS "Using gRPC ${gRPC_VERSION}")
+# Find gRPC installation
+# Looks for gRPCConfig.cmake file installed by gRPC's cmake installation.
+find_package(gRPC CONFIG REQUIRED)
+message(STATUS "Using gRPC ${gRPC_VERSION}")
 
-    set(_GRPC_GRPCPP_UNSECURE gRPC::grpc++_unsecure)
-    set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:gRPC::grpc_cpp_plugin>)
-endif ()
+set(_GRPC_GRPCPP_UNSECURE gRPC::grpc++_unsecure)
+set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:gRPC::grpc_cpp_plugin>)
 
 
 get_filename_component(cc_proto "${PROTO_DIR}/car_crash.proto" ABSOLUTE)
@@ -66,7 +60,7 @@ set(SOURCES
         ${cc_grpc_srcs}
         framework/utilities/collision_detection.cpp
         game/car_crash.cpp
-)
+        )
 
 add_library(${PROJECT_NAME} OBJECT)
 target_sources(${PROJECT_NAME} PUBLIC
@@ -88,14 +82,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # # client
 add_executable(${PROJECT_NAME}_client
         ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
-)
+        )
 
 target_link_libraries(${PROJECT_NAME}_client
         ${SFML2_LIBRARIES}
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
         $<TARGET_OBJECTS:${PROJECT_NAME}>
-)
+        )
 
 # # server
 add_executable(${PROJECT_NAME}_server

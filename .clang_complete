@@ -1,6 +1,4 @@
  -DDEBUG
- -I/usr/include/c++/9.2.0/
- -I/usr/include/c++/9.2.0/x86_64-pc-linux-gnu/
  -I./src/cpp/framework
  -I./build/src/cpp/framework/network
  -I./third_party/SFML/include/
