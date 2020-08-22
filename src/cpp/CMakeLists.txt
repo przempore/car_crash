@@ -1,11 +1,7 @@
-cmake_minimum_required(VERSION 3.14)
-project(car_crash CXX)
-
 if (MSVC)
     add_definitions(-D_WIN32_WINNT=0x600)
 endif ()
 
-#find_package(SFML CONFIG REQUIRED)
 find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -36,16 +32,23 @@ set(cc_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.grpc.pb.h")
 
 set(CMAKE_TOOLCHAIN_FILE_LENGTH 0)
 string(LENGTH ${CMAKE_TOOLCHAIN_FILE} CMAKE_TOOLCHAIN_FILE_LENGTH)
+set(VCPKG_FROM_PARENT_DIR_LENGTH 0)
+string(LENGTH "scripts/buildsystems/vcpkg.cmake" VCPKG_FROM_PARENT_DIR_LENGTH)
 set(CMAKE_TOOLCHAIN_DIR "")
-math(EXPR CMAKE_TOOLCHAIN_FILE_LENGTH "${CMAKE_TOOLCHAIN_FILE_LENGTH}-11" OUTPUT_FORMAT DECIMAL)
-string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH}-11 CMAKE_TOOLCHAIN_DIR)
+math(EXPR CMAKE_TOOLCHAIN_FILE_LENGTH "${CMAKE_TOOLCHAIN_FILE_LENGTH}-${VCPKG_FROM_PARENT_DIR_LENGTH}" OUTPUT_FORMAT DECIMAL)
+string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH} CMAKE_TOOLCHAIN_DIR)
+
+set(PROTO_INCLUDE "")
+if (WIN32)
+   set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-windows/include")
+endif ()
 
 add_custom_command(
         OUTPUT "${cc_proto_srcs}" "${cc_proto_hdrs}" "${cc_grpc_srcs}" "${cc_grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
         ARGS --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
         --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
-        -I "${cc_proto_path}" -I "${CMAKE_TOOLCHAIN_DIR}/../../installed/x64-windows/include"
+        -I "${cc_proto_path}" -I "${PROTO_INCLUDE}"
         --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
         "${cc_proto}"
         DEPENDS "${cc_proto}"
@@ -80,7 +83,7 @@ target_include_directories(${PROJECT_NAME}
         )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        ${SFML2_LIBRARIES}
+        sfml-graphics sfml-window sfml-system
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
         )
@@ -91,7 +94,7 @@ add_executable(${PROJECT_NAME}_client
         )
 
 target_link_libraries(${PROJECT_NAME}_client
-        ${SFML2_LIBRARIES}
+        sfml-graphics sfml-window sfml-system
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
         $<TARGET_OBJECTS:${PROJECT_NAME}>
@@ -103,7 +106,7 @@ add_executable(${PROJECT_NAME}_server
         )
 
 target_link_libraries(${PROJECT_NAME}_server
-        ${SFML2_LIBRARIES}
+        sfml-graphics sfml-window sfml-system
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
         $<TARGET_OBJECTS:${PROJECT_NAME}>

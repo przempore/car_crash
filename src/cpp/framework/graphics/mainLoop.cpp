@@ -1,8 +1,6 @@
 #include "mainLoop.hpp"
 
 #include "../i_game_application.hpp"
-#include "../utilities/input.hpp"
-#include "render_window.hpp"
 
 namespace Game {
 IGameApplicationPtr createGameApplication(const std::string& ip);
