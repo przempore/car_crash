@@ -8,19 +8,23 @@
 
 namespace Game {
 
-class IGameApplication {
- public:
-  virtual ~IGameApplication() = default;
+    class IGameApplication {
+    public:
+        virtual ~IGameApplication() = default;
 
- public:
-  virtual void onStartup() = 0;
-  virtual void onShutdown() = 0;
-  virtual void onUpdate() = 0;
-  virtual void onDraw(Game::Wrappers::RenderWindow& target) = 0;
-  virtual void onInput(const Input::Keyboard) = 0;
-};
+    public:
+        virtual void onStartup() = 0;
 
-using IGameApplicationPtr = std::shared_ptr<IGameApplication>;
+        virtual void onShutdown() = 0;
+
+        virtual void onUpdate() = 0;
+
+        virtual void onDraw(Game::Wrappers::RenderWindow &target) = 0;
+
+        virtual void onInput(const Input::Keyboard) = 0;
+    };
+
+    using IGameApplicationPtr = std::shared_ptr<IGameApplication>;
 
 }  // namespace Game
 
