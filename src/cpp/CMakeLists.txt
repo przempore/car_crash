@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(car_crash)
+project(car_crash CXX)
 
 if (MSVC)
     add_definitions(-D_WIN32_WINNT=0x600)
@@ -34,12 +34,18 @@ set(cc_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.pb.h")
 set(cc_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.grpc.pb.cc")
 set(cc_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/car_crash.grpc.pb.h")
 
+set(CMAKE_TOOLCHAIN_FILE_LENGTH 0)
+string(LENGTH ${CMAKE_TOOLCHAIN_FILE} CMAKE_TOOLCHAIN_FILE_LENGTH)
+set(CMAKE_TOOLCHAIN_DIR "")
+math(EXPR CMAKE_TOOLCHAIN_FILE_LENGTH "${CMAKE_TOOLCHAIN_FILE_LENGTH}-11" OUTPUT_FORMAT DECIMAL)
+string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH}-11 CMAKE_TOOLCHAIN_DIR)
+
 add_custom_command(
         OUTPUT "${cc_proto_srcs}" "${cc_proto_hdrs}" "${cc_grpc_srcs}" "${cc_grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
         ARGS --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
         --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
-        -I "${cc_proto_path}" -I "C:/tools/vcpkg/installed/x64-windows/include"
+        -I "${cc_proto_path}" -I "${CMAKE_TOOLCHAIN_DIR}/../../installed/x64-windows/include"
         --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
         "${cc_proto}"
         DEPENDS "${cc_proto}"

@@ -9,6 +9,8 @@ include(cmake/Cache.cmake)
 
 project(car_crash CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
@@ -61,14 +63,14 @@ if (ENABLE_FUZZING)
     add_subdirectory(fuzz_test)
 endif ()
 
-add_subdirectory(src)
+set(PROTO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/proto)
+add_subdirectory(src/cpp)
 
 
 #
 #
 #
 #
-#set(CMAKE_CXX_STANDARD 20)
 #set(THIRD_PARTY_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 #set(THIRD_PARTY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/third_party)
 #
