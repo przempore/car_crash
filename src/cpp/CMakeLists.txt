@@ -13,14 +13,11 @@ message(STATUS "Using protobuf ${protobuf_VERSION}")
 set(_PROTOBUF_LIBPROTOBUF protobuf::libprotobuf)
 set(_PROTOBUF_PROTOC $<TARGET_FILE:protobuf::protoc>)
 
-# Find gRPC installation
-# Looks for gRPCConfig.cmake file installed by gRPC's cmake installation.
 find_package(gRPC CONFIG REQUIRED)
 message(STATUS "Using gRPC ${gRPC_VERSION}")
 
 set(_GRPC_GRPCPP_UNSECURE gRPC::grpc++_unsecure)
 set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:gRPC::grpc_cpp_plugin>)
-
 
 get_filename_component(cc_proto "${PROTO_DIR}/car_crash.proto" ABSOLUTE)
 get_filename_component(cc_proto_path "${cc_proto}" PATH)
@@ -38,10 +35,12 @@ set(CMAKE_TOOLCHAIN_DIR "")
 math(EXPR CMAKE_TOOLCHAIN_FILE_LENGTH "${CMAKE_TOOLCHAIN_FILE_LENGTH}-${VCPKG_FROM_PARENT_DIR_LENGTH}" OUTPUT_FORMAT DECIMAL)
 string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH} CMAKE_TOOLCHAIN_DIR)
 
-set(PROTO_INCLUDE "")
 if (WIN32)
-    set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-windows/include")
+    set(SYSTEM "windows")
+elseif(UNIX)
+    set(SYSTEM "linux")
 endif ()
+set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-${SYSTEM}/include")
 
 add_custom_command(
         OUTPUT "${cc_proto_srcs}" "${cc_proto_hdrs}" "${cc_grpc_srcs}" "${cc_grpc_hdrs}"
@@ -60,10 +59,10 @@ set(SOURCES
         framework/graphics/render_window.cpp
         framework/graphics/rectangle_shape.cpp
         framework/graphics/color.cpp
-        framework/graphics/mainLoop.hpp
         framework/graphics/mainLoop.cpp
-        framework/network/cc_server.cpp
         framework/network/cc_client.cpp
+
+        framework/network/cc_server.cpp
         framework/network/rectangle.cpp
         ${cc_proto_srcs}
         ${cc_grpc_srcs}
