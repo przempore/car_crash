@@ -8,32 +8,41 @@
 
 namespace CC {
 
-class GRPCClient {
- public:
-  explicit GRPCClient(std::shared_ptr<::grpc::Channel> channel);
+    class GRPCClient {
+    public:
+        explicit GRPCClient(std::shared_ptr<::grpc::Channel> channel);
 
-  uint32_t getId();
-  std::vector<Rectangle> getVehicles();
-  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
-  uint32_t registerVehicle(const Rectangle& vehicle);
-  uint32_t unregisterVehicle(uint32_t id);
+        uint32_t getId();
 
- private:
-  std::unique_ptr<carcrash::CarCrash::Stub> stub_;
-};
+        std::vector<Rectangle> getVehicles();
 
-class Client {
- public:
-  explicit Client(const std::string& ip = "localhost:50051");
-  uint32_t getId();
-  std::vector<Rectangle> getVehicles();
-  uint32_t updateVehicle(uint32_t id, const Rectangle& vehicle);
-  uint32_t registerVehicle(const Rectangle& vehicle);
-  uint32_t unregisterVehicle(uint32_t id);
+        uint32_t updateVehicle(uint32_t id, const Rectangle &vehicle);
 
- private:
-  GRPCClient client_;
-};
+        uint32_t registerVehicle(const Rectangle &vehicle);
+
+        uint32_t unregisterVehicle(uint32_t id);
+
+    private:
+        std::unique_ptr<carcrash::CarCrash::Stub> stub_;
+    };
+
+    class Client {
+    public:
+        explicit Client(const std::string &ip = "localhost:50051");
+
+        uint32_t getId();
+
+        std::vector<Rectangle> getVehicles();
+
+        uint32_t updateVehicle(uint32_t id, const Rectangle &vehicle);
+
+        uint32_t registerVehicle(const Rectangle &vehicle);
+
+        uint32_t unregisterVehicle(uint32_t id);
+
+    private:
+        GRPCClient client_;
+    };
 
 }  // namespace CC
 

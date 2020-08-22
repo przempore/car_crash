@@ -40,7 +40,7 @@ string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH} CMAKE_
 
 set(PROTO_INCLUDE "")
 if (WIN32)
-   set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-windows/include")
+    set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-windows/include")
 endif ()
 
 add_custom_command(

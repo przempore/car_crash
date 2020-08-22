@@ -1,5 +1,0 @@
- -DDEBUG
- -I./src/cpp/framework
- -I./build/src/cpp/framework/network
- -I./third_party/SFML/include/
- -I./third_party/SFML/include
