@@ -1,14 +1,10 @@
 #define _USE_MATH_DEFINES
 
-#include "game/car_crash.hpp"
+#include "car_crash.hpp"
 
-#include <SFML/Graphics/Color.hpp>
 #include <cmath>
 #include <iostream>
 #include <memory>
-
-#include "framework/graphics/color.hpp"
-#include "framework/utilities/collision_detection.hpp"
 
 namespace {
 

@@ -29,11 +29,11 @@ namespace {
     struct Point {
         double x, y;
 
-        inline Point operator-(const Point &other) {
+        inline Point operator-(const Point &other) const {
             return {this->x - other.x, this->y - other.y};
         }
 
-        inline Point operator+(const Point &other) {
+        inline Point operator+(const Point &other) const {
             return {this->x + other.x, this->y + other.y};
         }
 

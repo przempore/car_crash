@@ -37,7 +37,7 @@ string(SUBSTRING ${CMAKE_TOOLCHAIN_FILE} 0 ${CMAKE_TOOLCHAIN_FILE_LENGTH} CMAKE_
 
 if (WIN32)
     set(SYSTEM "windows")
-elseif(UNIX)
+elseif (UNIX)
     set(SYSTEM "linux")
 endif ()
 set(PROTO_INCLUDE "${CMAKE_TOOLCHAIN_DIR}/installed/x64-${SYSTEM}/include")
@@ -53,60 +53,43 @@ add_custom_command(
         DEPENDS "${cc_proto}"
 )
 
+set(COMMON_SOURCE
+        framework/network/rectangle.cpp
+        ${cc_proto_srcs}
+        ${cc_grpc_srcs}
+        )
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(SOURCES
+add_executable(${PROJECT_NAME}_client
+        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
         framework/graphics/render_window.cpp
         framework/graphics/rectangle_shape.cpp
         framework/graphics/color.cpp
         framework/graphics/mainLoop.cpp
-        framework/network/cc_client.cpp
-
-        framework/network/cc_server.cpp
-        framework/network/rectangle.cpp
-        ${cc_proto_srcs}
-        ${cc_grpc_srcs}
         framework/utilities/collision_detection.cpp
         game/car_crash.cpp
-        )
 
-add_library(${PROJECT_NAME} OBJECT)
-target_sources(${PROJECT_NAME} PUBLIC
-        ${SOURCES}
-        )
-
-target_include_directories(${PROJECT_NAME}
-        SYSTEM PRIVATE ${SFML2_INCLUDE}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-        )
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-        sfml-graphics sfml-window sfml-system
-        ${_GRPC_GRPCPP_UNSECURE}
-        ${_PROTOBUF_LIBPROTOBUF}
-        )
-
-# # client
-add_executable(${PROJECT_NAME}_client
-        ${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
+        framework/network/cc_client.cpp
+        ${COMMON_SOURCE}
         )
 
 target_link_libraries(${PROJECT_NAME}_client
         sfml-graphics sfml-window sfml-system
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        $<TARGET_OBJECTS:${PROJECT_NAME}>
         )
 
 # # server
 add_executable(${PROJECT_NAME}_server
         ${CMAKE_CURRENT_SOURCE_DIR}/server.cpp
+        framework/network/cc_server.cpp
+
+        ${COMMON_SOURCE}
         )
 
 target_link_libraries(${PROJECT_NAME}_server
         sfml-graphics sfml-window sfml-system
         ${_GRPC_GRPCPP_UNSECURE}
         ${_PROTOBUF_LIBPROTOBUF}
-        $<TARGET_OBJECTS:${PROJECT_NAME}>
         )

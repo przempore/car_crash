@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "framework/graphics/rectangle_shape.hpp"
-#include "framework/i_game_application.hpp"
-#include "framework/network/cc_client.hpp"
+#include "../framework/graphics/rectangle_shape.hpp"
+#include "../framework/i_game_application.hpp"
+#include "../framework/network/cc_client.hpp"
 
 namespace CC {
 

@@ -1,7 +1,5 @@
 #include "color.hpp"
 
-#include <iostream>
-
 namespace Game::Wrappers {
 
     Color::Color(sf::Color c) : color_(c) {}
