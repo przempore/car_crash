@@ -7,7 +7,7 @@
 
 namespace CC {
 
-    bool mainLoop(const ClientConfig &config = ClientConfig{});
+bool mainLoop(const ClientConfig& config = ClientConfig{});
 
 }  // namespace CC
 

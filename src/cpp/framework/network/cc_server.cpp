@@ -1,5 +1,7 @@
 #include "cc_server.hpp"
 
+#include <iostream>
+
 //#include "../utilities/collision_detection.hpp"
 
 namespace CC {
@@ -9,7 +11,11 @@ namespace CC {
                                            ::carcrash::Id *response) {
         // todo: id should be an atomic member to not send the same id to multiple
         // clients
-        response->set_id(vehicles_.size());
+
+        const int newId = vehicles_.size();
+        std::cout << "GetNewId: " << newId << std::endl;
+
+        response->set_id(newId);
         return ::grpc::Status::OK;
     }
 
